@@ -6,7 +6,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ro.robert.epidemicrelief.model.Media;
 import ro.robert.epidemicrelief.model.Product;
+import ro.robert.epidemicrelief.repository.MediaRepository;
 import ro.robert.epidemicrelief.repository.ProductRepository;
 import ro.robert.epidemicrelief.service.ProductService;
 
@@ -23,7 +25,7 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void addProduct(@NonNull Product product) {
-
+        repository.save(product);
     }
 
     @Override

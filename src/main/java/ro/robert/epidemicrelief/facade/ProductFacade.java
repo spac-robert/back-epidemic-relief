@@ -2,6 +2,7 @@ package ro.robert.epidemicrelief.facade;
 
 import lombok.NonNull;
 import ro.robert.epidemicrelief.dto.ProductDTO;
+import ro.robert.epidemicrelief.model.Media;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +28,9 @@ public interface ProductFacade {
      * Adds the given user.
      *
      * @param product the user to be added
+     * @param media
      */
-    void addProduct(@NonNull ProductDTO product);
+    void addProduct(@NonNull ProductDTO product, @NonNull Media media);
 
     /**
      * Updates the given user.

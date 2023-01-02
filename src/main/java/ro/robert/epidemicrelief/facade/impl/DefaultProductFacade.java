@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 import ro.robert.epidemicrelief.converter.ProductConverter;
 import ro.robert.epidemicrelief.dto.ProductDTO;
 import ro.robert.epidemicrelief.facade.ProductFacade;
+import ro.robert.epidemicrelief.model.Media;
 import ro.robert.epidemicrelief.model.Product;
+import ro.robert.epidemicrelief.service.MediaService;
 import ro.robert.epidemicrelief.service.ProductService;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class DefaultProductFacade implements ProductFacade {
 
     private final ProductConverter productConverter;
     private final ProductService productService;
+    private final MediaService mediaService;
 
     @Override
     public @NonNull List<ProductDTO> getProducts(int pageSize, int pageNo, String sortBy, String sortDir) {
@@ -34,8 +37,13 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     @Override
-    public void addProduct(@NonNull ProductDTO product) {
-        productService.addProduct(productConverter.to(product));
+    public void addProduct(@NonNull ProductDTO productDto, @NonNull Media media) {
+        Product product = productConverter.to(productDto);
+        product.setMedia(List.of(media));
+        media.setProduct(product);
+        productService.addProduct(product);
+        mediaService.addMedia(media);
+
     }
 
     @Override

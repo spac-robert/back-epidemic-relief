@@ -2,6 +2,7 @@ package ro.robert.epidemicrelief.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 import ro.robert.epidemicrelief.model.Media;
 
 import java.sql.Date;
@@ -18,4 +19,6 @@ public class ProductDTO {
     private String description;
     private String manufacturer;
     private List<Media> media;
+
+    private MultipartFile file;
 }

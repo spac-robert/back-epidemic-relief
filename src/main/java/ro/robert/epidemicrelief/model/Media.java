@@ -20,6 +20,12 @@ public class Media {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public Media(String name, Blob data, Product product) {
+        this.name = name;
+        this.data = data;
+        this.product = product;
+    }
+
     public Media(String name, Blob data) {
         this.name = name;
         this.data = data;
@@ -43,5 +49,13 @@ public class Media {
 
     public void setData(Blob data) {
         this.data = data;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
