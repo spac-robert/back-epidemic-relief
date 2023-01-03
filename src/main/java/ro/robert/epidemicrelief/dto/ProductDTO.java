@@ -18,7 +18,7 @@ public class ProductDTO {
     private Date expirationDate;
     private String description;
     private String manufacturer;
-    private List<Media> media;
+    private List<MediaDTO> media;
 
     private MultipartFile file;
 }

@@ -18,7 +18,6 @@ public class ProductConverter {
         target.setExpirationDate(source.getExpirationDate());
         target.setDescription(source.getDescription());
         target.setManufacturer(source.getManufacturer());
-        target.setMedia(source.getMedia());
         return target;
     }
 

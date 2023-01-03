@@ -1,5 +1,7 @@
 package ro.robert.epidemicrelief.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ import static ro.robert.epidemicrelief.utils.AppConstants.*;
 @AllArgsConstructor
 @RequestMapping("/products")
 @CrossOrigin(origins = "http://localhost:4200")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductController {
 
     private final ProductFacade productFacade;
@@ -31,6 +34,7 @@ public class ProductController {
             @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortDir
     ) {
+        //TODO DA EROARE CU MEDIA
         return ResponseEntity.ok().body(productFacade.getProducts(pageSize, pageNo, sortBy, sortDir));
     }
 
