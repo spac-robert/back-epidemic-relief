@@ -12,23 +12,26 @@ public class Media {
     private Long id;
 
     private String name;
-
+    @Column(name = "type")
+    private String type;
     @Lob
-    private Blob data;
+    @Column(name = "data", length = 10000)
+    private byte[] data;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public Media(String name, Blob data, Product product) {
+    public Media(String name, byte[] data, Product product) {
         this.name = name;
         this.data = data;
         this.product = product;
     }
 
-    public Media(String name, Blob data) {
+    public Media(String name, byte[] data, String type) {
         this.name = name;
         this.data = data;
+        this.type = type;
     }
 
     public Media() {
@@ -43,11 +46,11 @@ public class Media {
         this.name = name;
     }
 
-    public Blob getData() {
+    public byte[] getData() {
         return data;
     }
 
-    public void setData(Blob data) {
+    public void setData(byte[] data) {
         this.data = data;
     }
 
@@ -61,5 +64,13 @@ public class Media {
 
     public Long getId() {
         return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

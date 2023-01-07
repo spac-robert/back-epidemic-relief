@@ -3,10 +3,8 @@ package ro.robert.epidemicrelief.dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
-import ro.robert.epidemicrelief.model.Media;
 
-import java.sql.Date;
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -15,10 +13,10 @@ public class ProductDTO {
     private Integer id;
     private String name;
     private Long price;
-    private Date expirationDate;
+    private String expirationDate;
     private String description;
     private String manufacturer;
-    private List<MediaDTO> media;
+//    private List<MediaDTO> media;
 
-    private MultipartFile file;
+    private MultipartFile media;
 }

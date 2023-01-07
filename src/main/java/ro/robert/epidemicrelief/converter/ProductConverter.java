@@ -5,6 +5,10 @@ import org.springframework.stereotype.Component;
 import ro.robert.epidemicrelief.dto.ProductDTO;
 import ro.robert.epidemicrelief.model.Product;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Component
 public class ProductConverter {
 
@@ -15,7 +19,7 @@ public class ProductConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setExpirationDate(source.getExpirationDate());
+        target.setExpirationDate(String.valueOf(source.getExpirationDate()));
         target.setDescription(source.getDescription());
         target.setManufacturer(source.getManufacturer());
         return target;
@@ -27,10 +31,19 @@ public class ProductConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setExpirationDate(source.getExpirationDate());
+        try {
+            target.setExpirationDate(dateFormatter(source.getExpirationDate()));
+        } catch (ParseException e) {
+            System.out.println("AAAAAAAAAAAa");
+        }
         target.setDescription(source.getDescription());
         target.setManufacturer(source.getManufacturer());
 
         return target;
+    }
+
+    private Date dateFormatter(String date) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.parse(date);
     }
 }

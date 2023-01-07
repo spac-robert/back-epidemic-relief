@@ -33,7 +33,7 @@ public class DefaultProductFacade implements ProductFacade {
         List<ProductDTO> productDTOS = new ArrayList<>();
         for (Product product : products) {
             ProductDTO productDTO = this.productConverter.from(product);
-            productDTO.setMedia(List.of(mediaConverter.from(product.getMedia().get(0))));
+            //productDTO.setMedia(List.of(mediaConverter.from(product.getMedia().get(0))));
             productDTOS.add(productDTO);
         }
         return productDTOS;

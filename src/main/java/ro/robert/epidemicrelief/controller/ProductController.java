@@ -1,8 +1,7 @@
 package ro.robert.epidemicrelief.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,10 +10,9 @@ import ro.robert.epidemicrelief.facade.ProductFacade;
 import ro.robert.epidemicrelief.model.Media;
 import ro.robert.epidemicrelief.repository.MediaRepository;
 
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import static ro.robert.epidemicrelief.utils.AppConstants.*;
 
@@ -22,10 +20,10 @@ import static ro.robert.epidemicrelief.utils.AppConstants.*;
 @AllArgsConstructor
 @RequestMapping("/products")
 @CrossOrigin(origins = "http://localhost:4200")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductController {
 
     private final ProductFacade productFacade;
+    private final MediaRepository repository;
 
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getProducts(
@@ -39,8 +37,9 @@ public class ProductController {
     }
 
     @PostMapping(value = "/add")
-    public void addProduct(@ModelAttribute("productDTO") ProductDTO productDTO) throws IOException, SQLException {
-        Media img = new Media(productDTO.getFile().getOriginalFilename(), new SerialBlob(productDTO.getFile().getBytes()));
+    public void addProduct(@ModelAttribute ProductDTO productDTO) throws IOException {
+        Media img = new Media(productDTO.getMedia().getOriginalFilename(), productDTO.getMedia().getBytes(), productDTO.getMedia().getContentType());
+        repository.save(img);
         productFacade.addProduct(productDTO, img);
     }
 
@@ -54,5 +53,23 @@ public class ProductController {
         productFacade.deleteProduct(id);
     }
 
+    @PostMapping("/upload")
+    public ResponseEntity.BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
+        System.out.println("Original Image Byte Size - " + file.getBytes().length);
+        Media img = new Media(file.getOriginalFilename(), file.getBytes(), file.getContentType());
+        repository.save(img);
+        return ResponseEntity.status(HttpStatus.OK);
+    }
 
+    @GetMapping(path = {"/get/{file}"})
+    public Media getImage(@PathVariable("file") String imageName) throws IOException {
+        final Optional<Media> retrievedImage = repository.findByName(imageName);
+        Media img = new Media();
+        if (retrievedImage.isPresent()) {
+            img = new Media(retrievedImage.get().getName(),
+                    retrievedImage.get().getData(), retrievedImage.get().getType());
+        }
+        return img;
+    }
 }
+

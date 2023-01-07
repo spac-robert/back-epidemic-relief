@@ -24,7 +24,7 @@ public class Product {
     @Column
     private Long price;
     @Column
-    private Date expirationDate;
+    private java.util.Date expirationDate;
     @Column
     @NotBlank(message = "Description is mandatory")
     private String description;
