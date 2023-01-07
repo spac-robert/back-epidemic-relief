@@ -30,7 +30,7 @@ public interface ProductFacade {
      * @param product the user to be added
      * @param media
      */
-    void addProduct(@NonNull ProductDTO product, @NonNull Media media);
+    void addProduct(@NonNull ProductDTO product);
 
     /**
      * Updates the given user.

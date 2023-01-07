@@ -1,18 +1,12 @@
 package ro.robert.epidemicrelief.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ro.robert.epidemicrelief.dto.ProductDTO;
 import ro.robert.epidemicrelief.facade.ProductFacade;
-import ro.robert.epidemicrelief.model.Media;
-import ro.robert.epidemicrelief.repository.MediaRepository;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import static ro.robert.epidemicrelief.utils.AppConstants.*;
 
@@ -23,7 +17,6 @@ import static ro.robert.epidemicrelief.utils.AppConstants.*;
 public class ProductController {
 
     private final ProductFacade productFacade;
-    private final MediaRepository repository;
 
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getProducts(
@@ -37,39 +30,38 @@ public class ProductController {
     }
 
     @PostMapping(value = "/add")
-    public void addProduct(@ModelAttribute ProductDTO productDTO) throws IOException {
-        Media img = new Media(productDTO.getMedia().getOriginalFilename(), productDTO.getMedia().getBytes(), productDTO.getMedia().getContentType());
-        repository.save(img);
-        productFacade.addProduct(productDTO, img);
+    public void addProduct(@ModelAttribute ProductDTO productDTO) {
+        productFacade.addProduct(productDTO);
     }
 
-    @PutMapping(value = "/update")
-    public void updateProduct(@RequestBody ProductDTO productDTO) {
-        productFacade.updateProduct(productDTO);
-    }
+//    @PutMapping(value = "/update")
+//    public void updateProduct(@RequestBody ProductDTO productDTO) {
+//        productFacade.updateProduct(productDTO);
+//    }
+//
+//    @DeleteMapping(value = "/delete/{id}")
+//    public void removeProduct(@PathVariable("id") Integer id) {
+//        productFacade.deleteProduct(id);
+//    }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public void removeProduct(@PathVariable("id") Integer id) {
-        productFacade.deleteProduct(id);
-    }
+//    @PostMapping("/upload")
+//    public ResponseEntity.BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
+//        System.out.println("Original Image Byte Size - " + file.getBytes().length);
+//        Media img = new Media(file.getOriginalFilename(), file.getBytes(), file.getContentType());
+//        repository.save(img);
+//        return ResponseEntity.status(HttpStatus.OK);
+//    }
 
-    @PostMapping("/upload")
-    public ResponseEntity.BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
-        System.out.println("Original Image Byte Size - " + file.getBytes().length);
-        Media img = new Media(file.getOriginalFilename(), file.getBytes(), file.getContentType());
-        repository.save(img);
-        return ResponseEntity.status(HttpStatus.OK);
-    }
-
-    @GetMapping(path = {"/get/{file}"})
-    public Media getImage(@PathVariable("file") String imageName) throws IOException {
-        final Optional<Media> retrievedImage = repository.findByName(imageName);
-        Media img = new Media();
-        if (retrievedImage.isPresent()) {
-            img = new Media(retrievedImage.get().getName(),
-                    retrievedImage.get().getData(), retrievedImage.get().getType());
-        }
-        return img;
-    }
+//    //TODO asta merge sa iau media img
+//    @GetMapping(path = {"/get/{file}"})
+//    public Media getImage(@PathVariable("file") String imageName) throws IOException {
+//        final Optional<Media> retrievedImage = repository.findByName(imageName);
+//        Media img = new Media();
+//        if (retrievedImage.isPresent()) {
+//            img = new Media(retrievedImage.get().getName(),
+//                    retrievedImage.get().getData(), retrievedImage.get().getType());
+//        }
+//        return img;
+//    }
 }
 

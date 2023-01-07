@@ -13,6 +13,7 @@ import ro.robert.epidemicrelief.model.Product;
 import ro.robert.epidemicrelief.service.MediaService;
 import ro.robert.epidemicrelief.service.ProductService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,13 +49,17 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     @Override
-    public void addProduct(@NonNull ProductDTO productDto, @NonNull Media media) {
-        Product product = productConverter.to(productDto);
-        product.setMedia(List.of(media));
-        media.setProduct(product);
-        productService.addProduct(product);
-        mediaService.addMedia(media);
+    public void addProduct(@NonNull ProductDTO productDto) {
+        try {
+            Media media = mediaConverter.to(productDto.getMedia());
+            Product product = productConverter.to(productDto);
+            product.setMedia(List.of(media));
+            media.setProduct(product);
+            productService.addProduct(product);
+            mediaService.addMedia(media);
+        } catch (IOException e) {
 
+        }
     }
 
     @Override
