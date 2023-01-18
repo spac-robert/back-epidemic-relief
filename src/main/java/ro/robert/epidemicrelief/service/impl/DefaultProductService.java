@@ -6,9 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ro.robert.epidemicrelief.model.Media;
 import ro.robert.epidemicrelief.model.Product;
-import ro.robert.epidemicrelief.repository.MediaRepository;
 import ro.robert.epidemicrelief.repository.ProductRepository;
 import ro.robert.epidemicrelief.service.ProductService;
 
@@ -51,7 +49,8 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Optional<Product> getById(@NonNull Integer id) {
-        return Optional.empty();
+    public Product getById(@NonNull Integer id) {
+        Optional<Product> product = this.repository.findById(id);
+        return product.orElse(null);
     }
 }

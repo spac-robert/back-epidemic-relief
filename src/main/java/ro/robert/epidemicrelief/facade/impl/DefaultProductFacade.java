@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component(value = "productFacade")
 @AllArgsConstructor
@@ -44,8 +43,11 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     @Override
-    public @NonNull Optional<ProductDTO> getById(Integer id) {
-        return Optional.empty();
+    public ProductDTO getById(Integer id) {
+        Product product = this.productService.getById(id);
+        ProductDTO productDTO = this.productConverter.from(this.productService.getById(id));
+        productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+        return productDTO;
     }
 
     @Override
@@ -64,8 +66,8 @@ public class DefaultProductFacade implements ProductFacade {
 
     @Override
     public void updateProduct(@NonNull ProductDTO product) {
-        Optional<Product> productOptional = productService.getById(product.getId());
-        if (productOptional.isPresent()) {
+        Product productOptional = productService.getById(product.getId());
+        if (productOptional != null) {
             productService.updateProduct(productConverter.to(product));
         } else {
             throw new EntityNotFoundException("Product with id: " + product.getId() + " does not exist");

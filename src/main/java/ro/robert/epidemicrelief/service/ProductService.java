@@ -4,7 +4,6 @@ import lombok.NonNull;
 import ro.robert.epidemicrelief.model.Product;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProductService {
 
@@ -37,5 +36,5 @@ public interface ProductService {
     /**
      * @return an optional containing the matching product if it exists; epty optional otherwise
      */
-    Optional<Product> getById(@NonNull Integer id);
+    Product getById(@NonNull Integer id);
 }

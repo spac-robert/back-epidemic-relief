@@ -2,10 +2,8 @@ package ro.robert.epidemicrelief.facade;
 
 import lombok.NonNull;
 import ro.robert.epidemicrelief.dto.ProductDTO;
-import ro.robert.epidemicrelief.model.Media;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Facade responsible for operations performed on {@link ProductDTO}.
@@ -22,7 +20,7 @@ public interface ProductFacade {
      * @return an Optional containing the matching household if it exists; empty optional otherwise
      */
     @NonNull
-    Optional<ProductDTO> getById(Integer id);
+    ProductDTO getById(Integer id);
 
     /**
      * Adds the given user.
