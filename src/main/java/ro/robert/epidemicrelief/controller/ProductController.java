@@ -5,12 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.robert.epidemicrelief.dto.ProductDTO;
 import ro.robert.epidemicrelief.facade.ProductFacade;
-import ro.robert.epidemicrelief.model.Media;
-import ro.robert.epidemicrelief.repository.ImageDataRepository;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import static ro.robert.epidemicrelief.utils.AppConstants.*;
 
@@ -21,7 +17,6 @@ import static ro.robert.epidemicrelief.utils.AppConstants.*;
 public class ProductController {
 
     private final ProductFacade productFacade;
-    private final ImageDataRepository repository;
 
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getProducts(
@@ -30,7 +25,6 @@ public class ProductController {
             @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortDir
     ) {
-        //TODO DA EROARE CU MEDIA
         return ResponseEntity.ok().body(productFacade.getProducts(pageSize, pageNo, sortBy, sortDir));
     }
 
@@ -41,7 +35,13 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok().body(productFacade.getById(id));
+        ProductDTO product;
+        try {
+            product = productFacade.getById(id);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        return ResponseEntity.ok().body(product);
     }
 
 //    @PutMapping(value = "/update")
@@ -62,16 +62,5 @@ public class ProductController {
 //        return ResponseEntity.status(HttpStatus.OK);
 //    }
 
-    //    //TODO asta merge sa iau media img
-    @GetMapping(path = {"/get/{file}"})
-    public Media getImage(@PathVariable("file") String imageName) throws IOException {
-        final Optional<Media> retrievedImage = repository.findByName(imageName);
-        Media img = new Media();
-        if (retrievedImage.isPresent()) {
-            img = new Media(retrievedImage.get().getName(),
-                    retrievedImage.get().getData(), retrievedImage.get().getType());
-        }
-        return img;
-    }
 }
 

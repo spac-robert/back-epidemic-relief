@@ -16,7 +16,6 @@ import ro.robert.epidemicrelief.service.ProductService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component(value = "productFacade")
 @AllArgsConstructor
@@ -33,7 +32,7 @@ public class DefaultProductFacade implements ProductFacade {
         List<ProductDTO> productDTOS = new ArrayList<>();
         for (Product product : products) {
             ProductDTO productDTO = this.productConverter.from(product);
-            //productDTO.setMedia(List.of(mediaConverter.from(product.getMedia().get(0))));
+            productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
             productDTOS.add(productDTO);
         }
         return productDTOS;
