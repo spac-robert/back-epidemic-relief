@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Component
 public class ProductConverter {
+    //TODO de adaugat logs
 
     @NonNull
     public ProductDTO from(@NonNull Product source) {
@@ -34,7 +35,7 @@ public class ProductConverter {
         try {
             target.setExpirationDate(dateFormatter(source.getExpirationDate()));
         } catch (ParseException e) {
-            System.out.println("AAAAAAAAAAAa");
+            System.out.println("Invalid date format!");
         }
         target.setDescription(source.getDescription());
         target.setManufacturer(source.getManufacturer());

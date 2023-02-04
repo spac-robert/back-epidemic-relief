@@ -15,7 +15,7 @@ public class Media {
     @Column(name = "type")
     private String type;
     @Lob
-    @Column(name = "data", length = 10000)
+    @Column(name = "data",columnDefinition = "LONGBLOB", length = 10000)
     private byte[] data;
 
     @ManyToOne
