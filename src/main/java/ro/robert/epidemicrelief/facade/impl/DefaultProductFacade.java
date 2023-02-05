@@ -3,6 +3,8 @@ package ro.robert.epidemicrelief.facade.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 import ro.robert.epidemicrelief.converter.MediaConverter;
 import ro.robert.epidemicrelief.converter.ProductConverter;
@@ -27,15 +29,17 @@ public class DefaultProductFacade implements ProductFacade {
     private final MediaConverter mediaConverter;
 
     @Override
-    public @NonNull List<ProductDTO> getProducts(int pageSize, int pageNo, String sortBy, String sortDir) {
-        List<Product> products = productService.getProducts(pageSize, pageNo, sortBy, sortDir);
+    public @NonNull Page<ProductDTO> getProducts(int pageSize, int pageNo, String sortBy, String sortDir) {
+        Page<Product> products = productService.getProducts(pageSize, pageNo, sortBy, sortDir);
         List<ProductDTO> productDTOS = new ArrayList<>();
-        for (Product product : products) {
+        for (Product product : products.getContent()) {
             ProductDTO productDTO = this.productConverter.from(product);
             productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
             productDTOS.add(productDTO);
         }
-        return productDTOS;
+        return new PageImpl<ProductDTO>(productDTOS, products.getPageable(), products.getTotalElements());
+        //return new ProductPage(productDTOS, pageNo, pageSize, products.size());
+        //return productDTOS;
 //        return productService.getProducts(pageSize, pageNo, sortBy, sortDir).stream()
 //                .map(productConverter::from)
 //                .collect(Collectors.toList());

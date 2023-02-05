@@ -1,6 +1,7 @@
 package ro.robert.epidemicrelief.service;
 
 import lombok.NonNull;
+import org.springframework.data.domain.Page;
 import ro.robert.epidemicrelief.model.Product;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public interface ProductService {
     /**
      * @return a list of products
      */
-    List<Product> getProducts(int pageSize, int pageNo, String sortBy, String sortDir);
+    Page<Product> getProducts(int pageSize, int pageNo, String sortBy, String sortDir);
 
     /**
      * @return an optional containing the matching product if it exists; epty optional otherwise

@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ro.robert.epidemicrelief.dto.ProductDTO;
 import ro.robert.epidemicrelief.facade.ProductFacade;
 
-import java.util.List;
-
 import static ro.robert.epidemicrelief.utils.AppConstants.*;
 
 @RestController
@@ -20,7 +18,7 @@ public class ProductController {
     private final ProductFacade productFacade;
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getProducts(
+    public ResponseEntity<Page<ProductDTO>> getProducts(
             @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "pageNo", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,

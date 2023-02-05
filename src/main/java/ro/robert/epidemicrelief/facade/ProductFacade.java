@@ -1,7 +1,9 @@
 package ro.robert.epidemicrelief.facade;
 
 import lombok.NonNull;
+import org.springframework.data.domain.Page;
 import ro.robert.epidemicrelief.dto.ProductDTO;
+import ro.robert.epidemicrelief.dto.ProductPage;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ public interface ProductFacade {
      * @return list of all products
      */
     @NonNull
-    List<ProductDTO> getProducts(int pageSize, int pageNo, String sortBy, String sortDir);
+    Page<ProductDTO> getProducts(int pageSize, int pageNo, String sortBy, String sortDir);
 
     /**
      * @return an Optional containing the matching household if it exists; empty optional otherwise
