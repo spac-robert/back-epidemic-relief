@@ -23,6 +23,10 @@ public class Product {
     private String name;
     @Column
     private Long price;
+
+    @Column
+    private Integer stock;
+
     @Column
     private java.util.Date expirationDate;
     @Column

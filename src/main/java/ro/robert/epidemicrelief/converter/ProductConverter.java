@@ -23,6 +23,7 @@ public class ProductConverter {
         target.setExpirationDate(String.valueOf(source.getExpirationDate()));
         target.setDescription(source.getDescription());
         target.setManufacturer(source.getManufacturer());
+        target.setStock(source.getStock());
         return target;
     }
 
@@ -32,6 +33,8 @@ public class ProductConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setPrice(source.getPrice());
+        target.setStock(source.getStock());
+
         try {
             target.setExpirationDate(dateFormatter(source.getExpirationDate()));
         } catch (ParseException e) {

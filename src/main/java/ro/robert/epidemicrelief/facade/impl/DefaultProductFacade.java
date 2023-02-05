@@ -37,12 +37,7 @@ public class DefaultProductFacade implements ProductFacade {
             productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
             productDTOS.add(productDTO);
         }
-        return new PageImpl<ProductDTO>(productDTOS, products.getPageable(), products.getTotalElements());
-        //return new ProductPage(productDTOS, pageNo, pageSize, products.size());
-        //return productDTOS;
-//        return productService.getProducts(pageSize, pageNo, sortBy, sortDir).stream()
-//                .map(productConverter::from)
-//                .collect(Collectors.toList());
+        return new PageImpl<>(productDTOS, products.getPageable(), products.getTotalElements());
     }
 
     @Override

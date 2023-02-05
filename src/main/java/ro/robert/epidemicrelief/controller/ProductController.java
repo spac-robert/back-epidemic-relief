@@ -24,7 +24,6 @@ public class ProductController {
             @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortDir
     ) {
-        //todo in loc de list<productdto> sa am acest productPage si sa vad de interfata Page din spring
         return ResponseEntity.ok().body(productFacade.getProducts(pageSize, pageNo, sortBy, sortDir));
     }
 
