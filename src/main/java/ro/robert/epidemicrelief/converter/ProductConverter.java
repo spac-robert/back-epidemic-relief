@@ -20,10 +20,8 @@ public class ProductConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setExpirationDate(String.valueOf(source.getExpirationDate()));
         target.setDescription(source.getDescription());
         target.setManufacturer(source.getManufacturer());
-        target.setStock(source.getStock());
         return target;
     }
 
@@ -33,21 +31,10 @@ public class ProductConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setStock(source.getStock());
-
-        try {
-            target.setExpirationDate(dateFormatter(source.getExpirationDate()));
-        } catch (ParseException e) {
-            System.out.println("Invalid date format!");
-        }
         target.setDescription(source.getDescription());
         target.setManufacturer(source.getManufacturer());
 
         return target;
     }
 
-    private Date dateFormatter(String date) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.parse(date);
-    }
 }

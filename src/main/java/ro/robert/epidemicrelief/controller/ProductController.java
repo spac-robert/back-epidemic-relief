@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.robert.epidemicrelief.dto.LotDTO;
 import ro.robert.epidemicrelief.dto.ProductDTO;
 import ro.robert.epidemicrelief.facade.ProductFacade;
 
@@ -30,6 +31,18 @@ public class ProductController {
     @PostMapping(value = "/add")
     public void addProduct(@ModelAttribute ProductDTO productDTO) {
         productFacade.addProduct(productDTO);
+    }
+
+    @PostMapping(value = "/add/lot")
+    public void addProductLot(@ModelAttribute LotDTO lotDTO) {
+        //productFacade.addProductLot(lotDTO);
+        //TODO de continuat flow-ul
+        try {
+            this.productFacade.addLot(lotDTO);
+        } catch (Exception e) {
+
+        }
+        System.out.println(lotDTO);
     }
 
     @GetMapping("/{id}")

@@ -10,7 +10,6 @@ public class ProductDTO {
 
     private Integer id;
     private String name;
-    private Integer stock;
     private Long price;
     private String expirationDate;
     private String description;

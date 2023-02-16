@@ -6,12 +6,16 @@ import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
+import ro.robert.epidemicrelief.converter.LotConverter;
 import ro.robert.epidemicrelief.converter.MediaConverter;
 import ro.robert.epidemicrelief.converter.ProductConverter;
+import ro.robert.epidemicrelief.dto.LotDTO;
 import ro.robert.epidemicrelief.dto.ProductDTO;
 import ro.robert.epidemicrelief.facade.ProductFacade;
+import ro.robert.epidemicrelief.model.Lot;
 import ro.robert.epidemicrelief.model.Media;
 import ro.robert.epidemicrelief.model.Product;
+import ro.robert.epidemicrelief.service.LotService;
 import ro.robert.epidemicrelief.service.MediaService;
 import ro.robert.epidemicrelief.service.ProductService;
 
@@ -24,6 +28,8 @@ import java.util.List;
 public class DefaultProductFacade implements ProductFacade {
 
     private final ProductConverter productConverter;
+    private final LotConverter lotConverter;
+     private final LotService lotService;
     private final ProductService productService;
     private final MediaService mediaService;
     private final MediaConverter mediaConverter;
@@ -75,5 +81,22 @@ public class DefaultProductFacade implements ProductFacade {
     @Override
     public void deleteProduct(Integer id) {
         productService.deleteProduct(id);
+    }
+
+    @Override
+    public void addLot(LotDTO lotDTO) {
+        Lot lot = this.lotConverter.to(lotDTO);
+        Integer productId = lotDTO.getProductId();
+        Product product = this.productService.getById(productId);
+
+        if (product != null) {
+            lot.setProduct(product);
+            this.lotService.addLot(lot);
+
+//            List<Lot> lots = product.getLots();
+//            lots.add(lot);
+//            product.setLots(lots);
+//            this.productService.updateProduct(product);
+        }
     }
 }

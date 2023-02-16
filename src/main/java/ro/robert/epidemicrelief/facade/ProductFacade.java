@@ -2,10 +2,8 @@ package ro.robert.epidemicrelief.facade;
 
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
+import ro.robert.epidemicrelief.dto.LotDTO;
 import ro.robert.epidemicrelief.dto.ProductDTO;
-import ro.robert.epidemicrelief.dto.ProductPage;
-
-import java.util.List;
 
 /**
  * Facade responsible for operations performed on {@link ProductDTO}.
@@ -28,7 +26,7 @@ public interface ProductFacade {
      * Adds the given user.
      *
      * @param product the user to be added
-     * @param media
+     * @param
      */
     void addProduct(@NonNull ProductDTO product);
 
@@ -46,4 +44,9 @@ public interface ProductFacade {
      */
     void deleteProduct(Integer id);
 
+    /**
+     * Adds a lot for a given product
+     * @param lotDTO
+     */
+    void addLot(LotDTO lotDTO);
 }

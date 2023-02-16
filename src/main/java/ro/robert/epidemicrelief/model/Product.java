@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,11 +26,6 @@ public class Product {
     private Long price;
 
     @Column
-    private Integer stock;
-
-    @Column
-    private java.util.Date expirationDate;
-    @Column
     @NotBlank(message = "Description is mandatory")
     private String description;
 
@@ -40,10 +36,12 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Media> media;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Lot> lots = new ArrayList<>();
+
     public Product(String name, Long price, Date expirationDate, String description, String manufacturer) {
         this.name = name;
         this.price = price;
-        this.expirationDate = expirationDate;
         this.description = description;
         this.manufacturer = manufacturer;
     }
@@ -51,9 +49,20 @@ public class Product {
     public Product(String name, Long price, Date expirationDate, String description, String manufacturer, List<Media> media) {
         this.name = name;
         this.price = price;
-        this.expirationDate = expirationDate;
         this.description = description;
         this.manufacturer = manufacturer;
         this.media = media;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", media=" + media +
+                '}';
     }
 }
