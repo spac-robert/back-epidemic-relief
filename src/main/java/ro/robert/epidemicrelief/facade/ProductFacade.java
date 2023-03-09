@@ -25,15 +25,14 @@ public interface ProductFacade {
     /**
      * Adds the given user.
      *
-     * @param product the user to be added
-     * @param
+     * @param product the product to be added
      */
     void addProduct(@NonNull ProductDTO product);
 
     /**
      * Updates the given user.
      *
-     * @param product the user to be updated
+     * @param product the product to be updated
      */
     void updateProduct(@NonNull ProductDTO product);
 
@@ -46,7 +45,6 @@ public interface ProductFacade {
 
     /**
      * Adds a lot for a given product
-     * @param lotDTO
      */
     void addLot(LotDTO lotDTO);
 }

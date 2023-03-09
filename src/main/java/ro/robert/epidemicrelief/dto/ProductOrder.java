@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class ProductOrder {
     private Integer quantity;
-    private Long idProduct;
+    private Integer idProduct;
 }

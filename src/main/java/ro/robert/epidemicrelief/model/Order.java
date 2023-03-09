@@ -2,6 +2,7 @@ package ro.robert.epidemicrelief.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ro.robert.epidemicrelief.enums.PaymentMethod;
 
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -20,15 +21,23 @@ public class Order {
     private Integer id;
     @Column
     @NotBlank(message = "Name is mandatory")
-    private String name;
+    private String firstName;
     @Column
-    private Long totalPrice;
+    @NotBlank(message = "Name is mandatory")
+    private String lastName;
+    @Column
+    private Double totalPrice;
+    @Column
+    private String email;
     @Column
     private String cardNumber;
     @Column
     private String cardName;
     @Column
     private String address;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
 }
