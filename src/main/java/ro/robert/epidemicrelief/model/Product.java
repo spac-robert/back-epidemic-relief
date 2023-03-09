@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +38,14 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Lot> lots = new ArrayList<>();
 
-    public Product(String name, Long price, Date expirationDate, String description, String manufacturer) {
+    public Product(String name, Long price, String description, String manufacturer) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.manufacturer = manufacturer;
     }
 
-    public Product(String name, Long price, Date expirationDate, String description, String manufacturer, List<Media> media) {
+    public Product(String name, Long price, String description, String manufacturer, List<Media> media) {
         this.name = name;
         this.price = price;
         this.description = description;
