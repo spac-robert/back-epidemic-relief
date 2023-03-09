@@ -25,8 +25,9 @@ public class OrderItem {
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 
-    public OrderItem(Product product, int quantity) {
+    public OrderItem(Product product, int quantity, Order order) {
         this.product = product;
         this.quantity = quantity;
+        this.order = order;
     }
 }

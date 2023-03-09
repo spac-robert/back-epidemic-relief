@@ -24,12 +24,13 @@ public class DefaultOrderFacade implements OrderFacade {
     }
 
     @Override
-    public Order addOrder(OrderDTO order) {
-        Order orderModel = orderConverter.to(order);
-        for (ProductOrder productOrder : order.getProducts()) {
+    public Order addOrder(OrderDTO orderDTO) {
+        Order orderModel = orderConverter.to(orderDTO);
+        Order order = orderService.addOrder(orderModel);
+        for (ProductOrder productOrder : orderDTO.getProducts()) {
             Product product = productService.getById(productOrder.getIdProduct());
             if (product != null && productOrder.getQuantity() > 0) {
-                orderModel.getItems().add(new OrderItem(product, productOrder.getQuantity()));
+                order.getItems().add(new OrderItem(product, productOrder.getQuantity(), order));
             }
         }
         return orderService.addOrder(orderModel);

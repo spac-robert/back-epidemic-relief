@@ -35,7 +35,6 @@ public class ProductController {
 
     @PostMapping(value = "/add/lot")
     public void addProductLot(@ModelAttribute LotDTO lotDTO) {
-        //productFacade.addProductLot(lotDTO);
         //TODO de continuat flow-ul
         try {
             this.productFacade.addLot(lotDTO);

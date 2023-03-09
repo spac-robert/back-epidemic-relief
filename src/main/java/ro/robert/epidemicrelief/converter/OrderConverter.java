@@ -20,7 +20,6 @@ public class OrderConverter {
         target.setFirstName(source.getFirstName());
         target.setLastName(source.getLastName());
         target.setPaymentInfo(new PaymentInfo(source.getPaymentMethod(), source.getCardNumber(), source.getCardName()));
-        //TODO set list of products
         return target;
     }
 
