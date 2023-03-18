@@ -25,14 +25,19 @@ public class DefaultOrderFacade implements OrderFacade {
 
     @Override
     public Order addOrder(OrderDTO orderDTO) {
+        //TODO problema e in OrderItems ca am acel order si nu stiu cum sa fac, practic trebuie sa fie un id
         Order orderModel = orderConverter.to(orderDTO);
         Order order = orderService.addOrder(orderModel);
         for (ProductOrder productOrder : orderDTO.getProducts()) {
             Product product = productService.getById(productOrder.getIdProduct());
             if (product != null && productOrder.getQuantity() > 0) {
-                order.getItems().add(new OrderItem(product, productOrder.getQuantity(), order));
+                //TODO aici e problema si da loop StackOverflowError
+                OrderItem orderItem = new OrderItem(product, productOrder.getQuantity());
+                orderItem.setOrder(order);
+                order.getItems().add(orderItem);
             }
         }
-        return orderService.addOrder(orderModel);
+        return orderService.addOrder(order);
     }
+
 }

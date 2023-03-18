@@ -8,7 +8,6 @@ import ro.robert.epidemicrelief.model.Order;
 
 @Component
 public class OrderConverter {
-    //TODO de adaugat logs
 
     @NonNull
     public OrderDTO from(@NonNull Order source) {

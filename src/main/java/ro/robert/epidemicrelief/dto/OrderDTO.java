@@ -12,8 +12,12 @@ public class OrderDTO {
     private String firstName;
     private String lastName;
     private String address;
+    private String phone;
     private Double price;
     private List<ProductOrder> products;
     private PaymentInfo paymentInfo;
+    private String city;
+    private String state;
+    private String zip;
 
 }

@@ -1,5 +1,7 @@
 package ro.robert.epidemicrelief.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,9 +27,8 @@ public class OrderItem {
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 
-    public OrderItem(Product product, int quantity, Order order) {
+    public OrderItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
-        this.order = order;
     }
 }

@@ -1,5 +1,7 @@
 package ro.robert.epidemicrelief.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import ro.robert.epidemicrelief.enums.PaymentMethod;
@@ -14,6 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
+@JsonIgnoreProperties("items")
 @Table(name = "my_order", schema = "public")
 public class Order {
     @Id

@@ -11,7 +11,6 @@ import java.util.Date;
 
 @Component
 public class ProductConverter {
-    //TODO de adaugat logs
 
     @NonNull
     public ProductDTO from(@NonNull Product source) {

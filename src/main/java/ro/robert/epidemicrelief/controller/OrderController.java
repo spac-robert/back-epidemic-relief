@@ -1,11 +1,13 @@
 package ro.robert.epidemicrelief.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.robert.epidemicrelief.dto.OrderDTO;
 import ro.robert.epidemicrelief.enums.PaymentMethod;
+import ro.robert.epidemicrelief.facade.LotFacade;
 import ro.robert.epidemicrelief.facade.OrderFacade;
 import ro.robert.epidemicrelief.model.Order;
 import ro.robert.epidemicrelief.model.OrderItem;
@@ -21,6 +23,7 @@ import java.util.List;
 public class OrderController {
     private final EmailService emailService;
     private OrderFacade orderFacade;
+    private LotFacade lotFacade;
 
     @PostMapping("")
     public ResponseEntity<String> placeOrder(@RequestBody OrderDTO order) {
@@ -34,10 +37,10 @@ public class OrderController {
                 + "\n\n\n Thank you for placing your order";
         emailService.sendEmail(to, subject, text);
         if (orderModel.getId() != null) {
+            lotFacade.updateLot(order.getProducts());
             return new ResponseEntity<>("The confirmation email has been sent", HttpStatus.OK);
         }
         return new ResponseEntity<>("The confirmation email has been sent", HttpStatus.BAD_REQUEST);
-        //TODO sa se stearga din cel mai vechi lot cantitatea
     }
 
     private String deliveryAddress(String address) {
