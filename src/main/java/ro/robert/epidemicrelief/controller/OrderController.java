@@ -1,12 +1,10 @@
 package ro.robert.epidemicrelief.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.robert.epidemicrelief.dto.OrderDTO;
-import ro.robert.epidemicrelief.enums.PaymentMethod;
 import ro.robert.epidemicrelief.facade.LotFacade;
 import ro.robert.epidemicrelief.facade.OrderFacade;
 import ro.robert.epidemicrelief.model.Order;
@@ -31,7 +29,7 @@ public class OrderController {
         String to = order.getEmail();
         String subject = "Order Confirmation";
         String text = "Order Confirmation number: " + orderModel.getId() + "\n\n\n Products: "
-                + transformProductForMail(orderModel.getItems()) + "\n\n\n" + paymentMethodEmail(orderModel)
+                + transformProductForMail(orderModel.getItems()) + "\n\n\n Cash"
                 + deliveryAddress(orderModel.getAddress())
                 + "\n Total Price: " + orderModel.getTotalPrice()
                 + "\n\n\n Thank you for placing your order";
@@ -58,14 +56,14 @@ public class OrderController {
         return emailProducts.toString();
     }
 
-    private String paymentMethodEmail(Order orderModel) {
-        StringBuilder paymentInfo = new StringBuilder();
-        paymentInfo.append("Payment method: ").append(orderModel.getPaymentMethod());
-        if (orderModel.getPaymentMethod().equals(PaymentMethod.CARD)) {
-            paymentInfo.append("\n Card Name: ").append(orderModel.getCardName())
-                    .append("\n Card number: ")
-                    .append(orderModel.getCardNumber());
-        }
-        return paymentInfo.toString();
-    }
+//    private String paymentMethodEmail(Order orderModel) {
+//        StringBuilder paymentInfo = new StringBuilder();
+//        paymentInfo.append("Payment method: ").append(orderModel.getPaymentMethod());
+//        if (orderModel.getPaymentMethod().equals(PaymentMethod.CARD)) {
+//            paymentInfo.append("\n Card Name: ").append(orderModel.getCardName())
+//                    .append("\n Card number: ")
+//                    .append(orderModel.getCardNumber());
+//        }
+//        return paymentInfo.toString();
+//    }
 }

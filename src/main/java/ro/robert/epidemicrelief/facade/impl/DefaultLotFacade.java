@@ -1,7 +1,7 @@
 package ro.robert.epidemicrelief.facade.impl;
 
 import org.springframework.stereotype.Component;
-import ro.robert.epidemicrelief.dto.ProductOrder;
+import ro.robert.epidemicrelief.dto.ProductOrderDTO;
 import ro.robert.epidemicrelief.facade.LotFacade;
 import ro.robert.epidemicrelief.service.LotService;
 
@@ -17,9 +17,9 @@ public class DefaultLotFacade implements LotFacade {
     }
 
     @Override
-    public void updateLot(List<ProductOrder> products) {
-        for(ProductOrder productOrder:products){
-           lotService.updateLot(productOrder);
+    public void updateLot(List<ProductOrderDTO> products) {
+        for(ProductOrderDTO productOrderDTO :products){
+           lotService.updateLot(productOrderDTO);
         }
     }
 }

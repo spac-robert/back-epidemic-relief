@@ -18,7 +18,7 @@ public class OrderConverter {
         target.setAddress(source.getAddress());
         target.setFirstName(source.getFirstName());
         target.setLastName(source.getLastName());
-        target.setPaymentInfo(new PaymentInfo(source.getPaymentMethod(), source.getCardNumber(), source.getCardName()));
+        //target.setPaymentInfo(new PaymentInfo(source.getPaymentMethod(), source.getCardNumber(), source.getCardName()));
         return target;
     }
 
@@ -30,9 +30,9 @@ public class OrderConverter {
         target.setAddress(source.getAddress());
         target.setFirstName(source.getFirstName());
         target.setLastName(source.getLastName());
-        target.setPaymentMethod(source.getPaymentInfo().getPaymentMethod());
-        target.setCardName(source.getPaymentInfo().getCardName());
-        target.setCardNumber(source.getPaymentInfo().getCardNumber());
+//        target.setPaymentMethod(source.getPaymentInfo().getPaymentMethod());
+//        target.setCardName(source.getPaymentInfo().getCardName());
+//        target.setCardNumber(source.getPaymentInfo().getCardNumber());
 
         return target;
     }

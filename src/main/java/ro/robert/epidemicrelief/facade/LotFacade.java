@@ -1,6 +1,6 @@
 package ro.robert.epidemicrelief.facade;
 
-import ro.robert.epidemicrelief.dto.ProductOrder;
+import ro.robert.epidemicrelief.dto.ProductOrderDTO;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface LotFacade {
 
-    void updateLot(List<ProductOrder> products);
+    void updateLot(List<ProductOrderDTO> products);
 }

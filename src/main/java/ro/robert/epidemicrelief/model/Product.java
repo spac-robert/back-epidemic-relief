@@ -20,12 +20,14 @@ public class Product {
     private Integer id;
     @Column
     @NotBlank(message = "Name is mandatory")
+  //  @FullTextField
     private String name;
     @Column
     private Long price;
 
     @Column
     @NotBlank(message = "Description is mandatory")
+  //  @FullTextField
     private String description;
 
     @Column
