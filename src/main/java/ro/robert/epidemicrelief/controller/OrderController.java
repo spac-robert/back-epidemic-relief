@@ -56,14 +56,4 @@ public class OrderController {
         return emailProducts.toString();
     }
 
-//    private String paymentMethodEmail(Order orderModel) {
-//        StringBuilder paymentInfo = new StringBuilder();
-//        paymentInfo.append("Payment method: ").append(orderModel.getPaymentMethod());
-//        if (orderModel.getPaymentMethod().equals(PaymentMethod.CARD)) {
-//            paymentInfo.append("\n Card Name: ").append(orderModel.getCardName())
-//                    .append("\n Card number: ")
-//                    .append(orderModel.getCardNumber());
-//        }
-//        return paymentInfo.toString();
-//    }
 }
