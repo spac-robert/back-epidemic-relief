@@ -1,12 +1,12 @@
 package ro.robert.epidemicrelief.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.robert.epidemicrelief.dto.LotDTO;
 import ro.robert.epidemicrelief.dto.ProductDTO;
 import ro.robert.epidemicrelief.facade.ProductFacade;
-
-import java.util.List;
 
 import static ro.robert.epidemicrelief.utils.AppConstants.*;
 
@@ -19,7 +19,7 @@ public class ProductController {
     private final ProductFacade productFacade;
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getProducts(
+    public ResponseEntity<Page<ProductDTO>> getProducts(
             @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "pageNo", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
@@ -31,6 +31,17 @@ public class ProductController {
     @PostMapping(value = "/add")
     public void addProduct(@ModelAttribute ProductDTO productDTO) {
         productFacade.addProduct(productDTO);
+    }
+
+    @PostMapping(value = "/add/lot")
+    public void addProductLot(@ModelAttribute LotDTO lotDTO) {
+        //TODO de continuat flow-ul
+        try {
+            this.productFacade.addLot(lotDTO);
+        } catch (Exception e) {
+
+        }
+        System.out.println(lotDTO);
     }
 
     @GetMapping("/{id}")

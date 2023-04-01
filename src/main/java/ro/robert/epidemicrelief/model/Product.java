@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,13 +20,14 @@ public class Product {
     private Integer id;
     @Column
     @NotBlank(message = "Name is mandatory")
+  //  @FullTextField
     private String name;
     @Column
     private Long price;
-    @Column
-    private java.util.Date expirationDate;
+
     @Column
     @NotBlank(message = "Description is mandatory")
+  //  @FullTextField
     private String description;
 
     @Column
@@ -36,20 +37,33 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Media> media;
 
-    public Product(String name, Long price, Date expirationDate, String description, String manufacturer) {
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Lot> lots = new ArrayList<>();
+
+    public Product(String name, Long price, String description, String manufacturer) {
         this.name = name;
         this.price = price;
-        this.expirationDate = expirationDate;
         this.description = description;
         this.manufacturer = manufacturer;
     }
 
-    public Product(String name, Long price, Date expirationDate, String description, String manufacturer, List<Media> media) {
+    public Product(String name, Long price, String description, String manufacturer, List<Media> media) {
         this.name = name;
         this.price = price;
-        this.expirationDate = expirationDate;
         this.description = description;
         this.manufacturer = manufacturer;
         this.media = media;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", media=" + media +
+                '}';
     }
 }

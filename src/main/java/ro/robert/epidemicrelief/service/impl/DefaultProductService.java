@@ -10,7 +10,6 @@ import ro.robert.epidemicrelief.model.Product;
 import ro.robert.epidemicrelief.repository.ProductRepository;
 import ro.robert.epidemicrelief.service.ProductService;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,7 +36,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getProducts(int pageSize, int pageNo, String sortBy, String sortDir) {
+    public Page<Product> getProducts(int pageSize, int pageNo, String sortBy, String sortDir) {
         Sort sort = Sort.by(sortBy).ascending();
         if (sortDir.equals("desc")) {
             sort = Sort.by(sortBy).descending();
@@ -45,7 +44,7 @@ public class DefaultProductService implements ProductService {
         Pageable page = PageRequest.of(pageNo, pageSize, sort);
         Page<Product> productPage = this.repository.findAll(page);
 
-        return productPage.getContent();
+        return productPage;
     }
 
     @Override

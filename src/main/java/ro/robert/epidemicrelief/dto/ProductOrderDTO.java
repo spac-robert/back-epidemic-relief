@@ -5,10 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MediaDTO {
-    private Long id;
-    private String name;
-    private byte[] data;
-
-
+public class ProductOrderDTO {
+    private Integer quantity;
+    private Integer idProduct;
 }
