@@ -14,7 +14,6 @@ public interface OrderFacade {
      * @param order the order to be added
      * @return
      */
-    Order addOrder(OrderDTO order);
-    //todo de schimbat din order in orderDTO
+    OrderDTO addOrder(OrderDTO order);
 
 }
