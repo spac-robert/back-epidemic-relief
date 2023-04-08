@@ -32,13 +32,12 @@ public class OrderController {
     public ResponseEntity<String> placeOrder(@RequestBody OrderDTO order) {
         OrderDTO orderDTO = orderFacade.addOrder(order);
         String to = order.getEmail();
-        String subject = "Order Confirmation";
-        String text = "Order Confirmation number: " + orderDTO.getOrderId() + "\n\n\n Products: "
-                + transformProductForMail(orderDTO.getProducts()) + "\n\n\n Cash"
-                + deliveryAddress(orderDTO.getAddress())
-                + "\n Total Price: " + orderDTO.getPrice()
-                + "\n\n\n Thank you for placing your order";
-        emailService.sendEmail(to, subject, text);
+        String subject = "Order Confirmation " + orderDTO.getOrderId();
+        try {
+            emailService.sendEmail(to, subject, orderDTO.getProducts(), deliveryAddress(orderDTO.getAddress()));
+        } catch (Exception e) {
+            System.out.println("Email couldn't be send!");
+        }
         if (orderDTO.getOrderId() != null) {
             lotFacade.updateLot(order.getProducts());
             return new ResponseEntity<>("The confirmation email has been sent", HttpStatus.OK);
@@ -47,19 +46,8 @@ public class OrderController {
     }
 
     private String deliveryAddress(String address) {
-        return "\nDelivery address: " + address + "\n";
+        return "\nDelivery address: " + address + "\n" + "Thank you for placing your order!";
     }
 
-    private String transformProductForMail(List<ProductOrderDTO> items) {
-        StringBuilder emailProducts = new StringBuilder();
-        for (ProductOrderDTO item : items) {
-
-            ProductDTO product = productFacade.getById(item.getIdProduct());
-            emailProducts.append("\n").append(product.getName()).append(" ")
-                    .append(product.getDescription()).append(" | ")
-                    .append("quantity: ").append(item.getQuantity());
-        }
-        return emailProducts.toString();
-    }
 
 }
