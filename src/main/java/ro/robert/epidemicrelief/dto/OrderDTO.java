@@ -8,6 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderDTO {
+    private Integer orderId;
     private String email;
     private String firstName;
     private String lastName;
