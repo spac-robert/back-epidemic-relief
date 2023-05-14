@@ -11,6 +11,7 @@ import ro.robert.epidemicrelief.converter.MediaConverter;
 import ro.robert.epidemicrelief.converter.ProductConverter;
 import ro.robert.epidemicrelief.dto.LotDTO;
 import ro.robert.epidemicrelief.dto.ProductDTO;
+import ro.robert.epidemicrelief.exception.ProductNotFoundException;
 import ro.robert.epidemicrelief.facade.ProductFacade;
 import ro.robert.epidemicrelief.model.Lot;
 import ro.robert.epidemicrelief.model.Media;
@@ -29,7 +30,7 @@ public class DefaultProductFacade implements ProductFacade {
 
     private final ProductConverter productConverter;
     private final LotConverter lotConverter;
-     private final LotService lotService;
+    private final LotService lotService;
     private final ProductService productService;
     private final MediaService mediaService;
     private final MediaConverter mediaConverter;
@@ -38,6 +39,7 @@ public class DefaultProductFacade implements ProductFacade {
     public @NonNull Page<ProductDTO> getProducts(int pageSize, int pageNo, String sortBy, String sortDir) {
         Page<Product> products = productService.getProducts(pageSize, pageNo, sortBy, sortDir);
         List<ProductDTO> productDTOS = new ArrayList<>();
+
         for (Product product : products.getContent()) {
             ProductDTO productDTO = this.productConverter.from(product);
             productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
@@ -47,11 +49,25 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     @Override
-    public ProductDTO getById(Integer id) {
+    public @NonNull List<ProductDTO> getProducts() {
+        List<Product> products = this.productService.getProducts();
+        List<ProductDTO> productDTOS = new ArrayList<>();
+
+        for (Product product : products) {
+            ProductDTO productDTO = this.productConverter.from(product);
+            productDTOS.add(productDTO);
+        }
+        return productDTOS;
+    }
+
+    @Override
+    public @NonNull ProductDTO getById(Integer id) {
         Product product = this.productService.getById(id);
         ProductDTO productDTO = this.productConverter.from(this.productService.getById(id));
         productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+
         return productDTO;
+
     }
 
     @Override
@@ -71,6 +87,7 @@ public class DefaultProductFacade implements ProductFacade {
     @Override
     public void updateProduct(@NonNull ProductDTO product) {
         Product productOptional = productService.getById(product.getId());
+
         if (productOptional != null) {
             productService.updateProduct(productConverter.to(product));
         } else {

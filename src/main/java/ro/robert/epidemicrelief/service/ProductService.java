@@ -35,6 +35,11 @@ public interface ProductService {
     Page<Product> getProducts(int pageSize, int pageNo, String sortBy, String sortDir);
 
     /**
+     * @return a list of products
+     */
+    List<Product> getProducts();
+
+    /**
      * @return an optional containing the matching product if it exists; epty optional otherwise
      */
     Product getById(@NonNull Integer id);

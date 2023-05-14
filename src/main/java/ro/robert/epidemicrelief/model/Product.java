@@ -23,7 +23,7 @@ public class Product {
   //  @FullTextField
     private String name;
     @Column
-    private Long price;
+    private Float price;
 
     @Column
     @NotBlank(message = "Description is mandatory")
@@ -40,14 +40,14 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Lot> lots = new ArrayList<>();
 
-    public Product(String name, Long price, String description, String manufacturer) {
+    public Product(String name, Float price, String description, String manufacturer) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.manufacturer = manufacturer;
     }
 
-    public Product(String name, Long price, String description, String manufacturer, List<Media> media) {
+    public Product(String name, Float price, String description, String manufacturer, List<Media> media) {
         this.name = name;
         this.price = price;
         this.description = description;

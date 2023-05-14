@@ -6,10 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ro.robert.epidemicrelief.exception.ProductNotFoundException;
 import ro.robert.epidemicrelief.model.Product;
 import ro.robert.epidemicrelief.repository.ProductRepository;
 import ro.robert.epidemicrelief.service.ProductService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,12 +29,12 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void updateProduct(@NonNull Product product) {
-
+        //TODO implementing update
     }
 
     @Override
     public void deleteProduct(@NonNull Integer id) {
-
+        //TODO implementing delete
     }
 
     @Override
@@ -42,14 +44,20 @@ public class DefaultProductService implements ProductService {
             sort = Sort.by(sortBy).descending();
         }
         Pageable page = PageRequest.of(pageNo, pageSize, sort);
-        Page<Product> productPage = this.repository.findAll(page);
 
-        return productPage;
+        return this.repository.findAll(page);
+    }
+
+    @Override
+    public List<Product> getProducts() {
+        return this.repository.findAll();
     }
 
     @Override
     public Product getById(@NonNull Integer id) {
         Optional<Product> product = this.repository.findById(id);
-        return product.orElse(null);
+        return product.orElseThrow(
+                () -> new ProductNotFoundException("Product with id: " + id + " didn't exist")
+        );
     }
 }
