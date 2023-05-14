@@ -55,4 +55,17 @@ public interface ProductFacade {
      * Adds a lot for a given product
      */
     void addLot(LotDTO lotDTO);
+
+    /**
+     * SSearch for a product in name and description columns
+     *
+     * @param query to search by
+     * @return
+     */
+    List<ProductDTO> search(String query);
+
+    /**
+     * @return list of all products listed o a page
+     */
+    Page<ProductDTO> searchProducts(String searchQuery, String sortBy, String sortDir, int pageSize, int pageNo);
 }

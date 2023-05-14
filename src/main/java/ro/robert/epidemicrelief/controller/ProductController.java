@@ -27,9 +27,11 @@ public class ProductController {
             @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "pageNo", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortDir
+            @RequestParam(value = "sortDir", defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortDir,
+            @RequestParam(value = "searchQuery", defaultValue = DEFAULT_SEARCH_QUERY, required = false) String searchQuery
     ) {
-        return ResponseEntity.ok().body(productFacade.getProducts(pageSize, pageNo, sortBy, sortDir));
+        Page<ProductDTO> products = productFacade.searchProducts(searchQuery, sortBy, sortDir, pageSize, pageNo);
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping(value = "/all")
@@ -68,6 +70,10 @@ public class ProductController {
         return ResponseEntity.ok().body(product);
     }
 
+    @GetMapping("/search")
+    public List<ProductDTO> searchProducts(@RequestParam("query") String query) {
+        return this.productFacade.search(query);
+    }
 //    @PutMapping(value = "/update")
 //    public void updateProduct(@RequestBody ProductDTO productDTO) {
 //        productFacade.updateProduct(productDTO);

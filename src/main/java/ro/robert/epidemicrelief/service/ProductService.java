@@ -43,4 +43,19 @@ public interface ProductService {
      * @return an optional containing the matching product if it exists; epty optional otherwise
      */
     Product getById(@NonNull Integer id);
+
+    /**
+     * Search in name and description columns from product table
+     *
+     * @param query
+     * @return
+     */
+    List<Product> search(String query);
+
+    /**
+     * Adds the given product
+     *
+     * @param product the product to be added
+     */
+    Page<Product> getSearchProducts(int pageSize, int pageNo, String sortBy, String sortDir, String searchQuery);
 }

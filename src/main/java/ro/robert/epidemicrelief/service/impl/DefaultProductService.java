@@ -60,4 +60,20 @@ public class DefaultProductService implements ProductService {
                 () -> new ProductNotFoundException("Product with id: " + id + " didn't exist")
         );
     }
+
+    @Override
+    public List<Product> search(String query) {
+        return this.repository.search(query);
+    }
+
+    @Override
+    public Page<Product> getSearchProducts(int pageSize, int pageNo, String sortBy, String sortDir, String searchQuery) {
+        Sort sort = Sort.by(sortBy).ascending();
+        if (sortDir.equals("desc")) {
+            sort = Sort.by(sortBy).descending();
+        }
+        Pageable page = PageRequest.of(pageNo, pageSize, sort);
+
+        return this.repository.search(searchQuery,page);
+    }
 }

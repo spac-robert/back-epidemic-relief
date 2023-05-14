@@ -20,23 +20,17 @@ public class Product {
     private Integer id;
     @Column
     @NotBlank(message = "Name is mandatory")
-  //  @FullTextField
     private String name;
     @Column
     private Float price;
-
     @Column
     @NotBlank(message = "Description is mandatory")
-  //  @FullTextField
     private String description;
-
     @Column
     @NotBlank(message = "Manufacturer is mandatory")
     private String manufacturer;
-
     @OneToMany(mappedBy = "product")
     private List<Media> media;
-
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Lot> lots = new ArrayList<>();
 

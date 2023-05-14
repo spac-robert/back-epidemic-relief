@@ -79,7 +79,7 @@ public class DefaultProductFacade implements ProductFacade {
             media.setProduct(product);
             productService.addProduct(product);
             mediaService.addMedia(media);
-        } catch (IOException e) {
+        } catch (IOException ignored) {
 
         }
     }
@@ -109,11 +109,40 @@ public class DefaultProductFacade implements ProductFacade {
         if (product != null) {
             lot.setProduct(product);
             this.lotService.addLot(lot);
-
-//            List<Lot> lots = product.getLots();
-//            lots.add(lot);
-//            product.setLots(lots);
-//            this.productService.updateProduct(product);
         }
+    }
+
+    //TODO asta sa o fac private method
+    //List<ProductDTO> productDTOS = new ArrayList<>();
+//
+//        for (Product product : products) {
+//            ProductDTO productDTO = this.productConverter.from(product);
+//            productDTOS.add(productDTO);
+//        }
+//        return productDTOS;
+    @Override
+    public List<ProductDTO> search(String query) {
+        List<Product> products = this.productService.search(query);
+        List<ProductDTO> productDTOS = new ArrayList<>();
+
+        for (Product product : products) {
+            ProductDTO productDTO = this.productConverter.from(product);
+            productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+            productDTOS.add(productDTO);
+        }
+        return productDTOS;
+    }
+
+    @Override
+    public Page<ProductDTO> searchProducts(String searchQuery, String sortBy, String sortDir, int pageSize, int pageNo) {
+        Page<Product> products = productService.getSearchProducts(pageSize, pageNo, sortBy, sortDir, searchQuery);
+        List<ProductDTO> productDTOS = new ArrayList<>();
+
+        for (Product product : products.getContent()) {
+            ProductDTO productDTO = this.productConverter.from(product);
+            productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+            productDTOS.add(productDTO);
+        }
+        return new PageImpl<>(productDTOS, products.getPageable(), products.getTotalElements());
     }
 }
