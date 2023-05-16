@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ro.robert.epidemicrelief.exception.ProductNotFoundException;
 import ro.robert.epidemicrelief.model.Product;
+import ro.robert.epidemicrelief.repository.MediaRepository;
 import ro.robert.epidemicrelief.repository.ProductRepository;
 import ro.robert.epidemicrelief.service.ProductService;
 
@@ -17,9 +18,11 @@ import java.util.Optional;
 @Service
 public class DefaultProductService implements ProductService {
     private final ProductRepository repository;
+    private final MediaRepository mediaRepository;
 
-    public DefaultProductService(ProductRepository repository) {
+    public DefaultProductService(ProductRepository repository, MediaRepository mediaRepository) {
         this.repository = repository;
+        this.mediaRepository = mediaRepository;
     }
 
     @Override
@@ -34,7 +37,12 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void deleteProduct(@NonNull Integer id) {
-        //TODO implementing delete
+        Optional<Product> product = repository.findById(id);
+        if (product.isPresent()) {
+            repository.delete(product.get());
+        } else {
+            throw new ProductNotFoundException("Product with id: " + id + " doesn't exist");
+        }
     }
 
     @Override

@@ -78,19 +78,11 @@ public class ProductController {
     public void updateProduct(@ModelAttribute ProductDTO productDTO) {
         productFacade.updateProduct(productDTO);
     }
-//
-//    @DeleteMapping(value = "/delete/{id}")
-//    public void removeProduct(@PathVariable("id") Integer id) {
-//        productFacade.deleteProduct(id);
-//    }
 
-//    @PostMapping("/upload")
-//    public ResponseEntity.BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
-//        System.out.println("Original Image Byte Size - " + file.getBytes().length);
-//        Media img = new Media(file.getOriginalFilename(), file.getBytes(), file.getContentType());
-//        repository.save(img);
-//        return ResponseEntity.status(HttpStatus.OK);
-//    }
+    @DeleteMapping(value = "/delete/{id}")
+    public void removeProduct(@PathVariable("id") Integer id) {
+        productFacade.deleteProduct(id);
+    }
 
 }
 
