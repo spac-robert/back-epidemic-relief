@@ -29,7 +29,7 @@ public class Product {
     @Column
     @NotBlank(message = "Manufacturer is mandatory")
     private String manufacturer;
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Media> media;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Lot> lots = new ArrayList<>();

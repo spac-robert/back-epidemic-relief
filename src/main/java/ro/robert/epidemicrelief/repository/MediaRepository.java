@@ -10,4 +10,6 @@ public interface MediaRepository extends JpaRepository<Media, Long> {
     Optional<Media> findByName(String name);
 
     Optional<Media> findByProduct(Product product);
+
+    void deleteByProduct(Product product);
 }
