@@ -29,7 +29,7 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void updateProduct(@NonNull Product product) {
-        //TODO implementing update
+        repository.save(product);
     }
 
     @Override
@@ -74,6 +74,6 @@ public class DefaultProductService implements ProductService {
         }
         Pageable page = PageRequest.of(pageNo, pageSize, sort);
 
-        return this.repository.search(searchQuery,page);
+        return this.repository.search(searchQuery, page);
     }
 }

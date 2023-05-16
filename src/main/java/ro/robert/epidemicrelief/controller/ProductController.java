@@ -74,10 +74,10 @@ public class ProductController {
     public List<ProductDTO> searchProducts(@RequestParam("query") String query) {
         return this.productFacade.search(query);
     }
-//    @PutMapping(value = "/update")
-//    public void updateProduct(@RequestBody ProductDTO productDTO) {
-//        productFacade.updateProduct(productDTO);
-//    }
+    @PutMapping(value = "/update")
+    public void updateProduct(@ModelAttribute ProductDTO productDTO) {
+        productFacade.updateProduct(productDTO);
+    }
 //
 //    @DeleteMapping(value = "/delete/{id}")
 //    public void removeProduct(@PathVariable("id") Integer id) {
