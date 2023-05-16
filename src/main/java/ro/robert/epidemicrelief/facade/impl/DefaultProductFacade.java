@@ -11,7 +11,6 @@ import ro.robert.epidemicrelief.converter.MediaConverter;
 import ro.robert.epidemicrelief.converter.ProductConverter;
 import ro.robert.epidemicrelief.dto.LotDTO;
 import ro.robert.epidemicrelief.dto.ProductDTO;
-import ro.robert.epidemicrelief.exception.ProductNotFoundException;
 import ro.robert.epidemicrelief.facade.ProductFacade;
 import ro.robert.epidemicrelief.model.Lot;
 import ro.robert.epidemicrelief.model.Media;
@@ -38,14 +37,8 @@ public class DefaultProductFacade implements ProductFacade {
     @Override
     public @NonNull Page<ProductDTO> getProducts(int pageSize, int pageNo, String sortBy, String sortDir) {
         Page<Product> products = productService.getProducts(pageSize, pageNo, sortBy, sortDir);
-        List<ProductDTO> productDTOS = new ArrayList<>();
 
-        for (Product product : products.getContent()) {
-            ProductDTO productDTO = this.productConverter.from(product);
-            productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
-            productDTOS.add(productDTO);
-        }
-        return new PageImpl<>(productDTOS, products.getPageable(), products.getTotalElements());
+        return new PageImpl<>(convertProducts(products), products.getPageable(), products.getTotalElements());
     }
 
     @Override
@@ -54,7 +47,13 @@ public class DefaultProductFacade implements ProductFacade {
         List<ProductDTO> productDTOS = new ArrayList<>();
 
         for (Product product : products) {
+            int quantity = 0;
             ProductDTO productDTO = this.productConverter.from(product);
+            for (Lot lot : product.getLots()) {
+                quantity = quantity + lot.getQuantity();
+            }
+
+            productDTO.setStock(quantity);
             productDTOS.add(productDTO);
         }
         return productDTOS;
@@ -62,8 +61,13 @@ public class DefaultProductFacade implements ProductFacade {
 
     @Override
     public @NonNull ProductDTO getById(Integer id) {
+        int quantity = 0;
         Product product = this.productService.getById(id);
-        ProductDTO productDTO = this.productConverter.from(this.productService.getById(id));
+        ProductDTO productDTO = this.productConverter.from(product);
+        for (Lot lot : product.getLots()) {
+            quantity = quantity + lot.getQuantity();
+        }
+        productDTO.setStock(quantity);
         productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
 
         return productDTO;
@@ -84,12 +88,25 @@ public class DefaultProductFacade implements ProductFacade {
         }
     }
 
+    //TODO de testat cu media daca se schimba sau nu
     @Override
     public void updateProduct(@NonNull ProductDTO product) {
+        Media media = new Media();
         Product productOptional = productService.getById(product.getId());
+        try {
+            if (product.getMedia().isEmpty()) {
+                media = productOptional.getMedia().get(0);
+            } else {
+                media = mediaConverter.to(product.getMedia());
+            }
+        } catch (Exception ignored) {
 
+        }
         if (productOptional != null) {
-            productService.updateProduct(productConverter.to(product));
+            Product productToBeSaved = productConverter.to(product);
+            productToBeSaved.setMedia(List.of(media));
+            productService.updateProduct(productToBeSaved);
+            mediaService.updateMedia(media, productToBeSaved);
         } else {
             throw new EntityNotFoundException("Product with id: " + product.getId() + " does not exist");
         }
@@ -112,14 +129,6 @@ public class DefaultProductFacade implements ProductFacade {
         }
     }
 
-    //TODO asta sa o fac private method
-    //List<ProductDTO> productDTOS = new ArrayList<>();
-//
-//        for (Product product : products) {
-//            ProductDTO productDTO = this.productConverter.from(product);
-//            productDTOS.add(productDTO);
-//        }
-//        return productDTOS;
     @Override
     public List<ProductDTO> search(String query) {
         List<Product> products = this.productService.search(query);
@@ -136,13 +145,23 @@ public class DefaultProductFacade implements ProductFacade {
     @Override
     public Page<ProductDTO> searchProducts(String searchQuery, String sortBy, String sortDir, int pageSize, int pageNo) {
         Page<Product> products = productService.getSearchProducts(pageSize, pageNo, sortBy, sortDir, searchQuery);
+
+        return new PageImpl<>(convertProducts(products), products.getPageable(), products.getTotalElements());
+    }
+
+    private List<ProductDTO> convertProducts(Page<Product> products) {
         List<ProductDTO> productDTOS = new ArrayList<>();
 
         for (Product product : products.getContent()) {
             ProductDTO productDTO = this.productConverter.from(product);
             productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+            int quantity = 0;
+            for (Lot lot : product.getLots()) {
+                quantity = quantity + lot.getQuantity();
+            }
+            productDTO.setStock(quantity);
             productDTOS.add(productDTO);
         }
-        return new PageImpl<>(productDTOS, products.getPageable(), products.getTotalElements());
+        return productDTOS;
     }
 }

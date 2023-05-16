@@ -16,4 +16,5 @@ public class ProductDTO {
     private String manufacturer;
     private MediaDTO mediaUrl;
     private MultipartFile media;
+    private Integer stock;
 }
