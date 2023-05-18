@@ -25,6 +25,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @ManyToOne
+    private Household household;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 }

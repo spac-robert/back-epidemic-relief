@@ -88,7 +88,6 @@ public class DefaultProductFacade implements ProductFacade {
         }
     }
 
-    //TODO de testat cu media daca se schimba sau nu
     @Override
     public void updateProduct(@NonNull ProductDTO product) {
         Media media = new Media();
