@@ -2,6 +2,7 @@ package ro.robert.epidemicrelief.service.impl;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -38,11 +39,17 @@ public class DefaultEmailService implements EmailService {
 
         for (ProductOrderDTO productOrderDTO : products) {
             Product product = productService.getById(productOrderDTO.getIdProduct());
+            String base64ImageData = Base64.encodeBase64String(product.getMedia().get(0).getData());
+            int imageWidth = 100;
+
             contentBuilder.append("<tr>");
-            contentBuilder.append("<td style='border: 1px solid black;'><img src='cid:image").append(product.getId()).append("'/></td>");
-            contentBuilder.append("<td style='border: 1px solid black;'>").append(product.getName()).append("</td>");
-            contentBuilder.append("<td style='border: 1px solid black;'>").append(productOrderDTO.getQuantity()).append("</td>");
-            contentBuilder.append("<td style='border: 1px solid black;'>").append(product.getPrice()).append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black;'>");
+            contentBuilder.append("<img src='data:image/png;base64,").append(base64ImageData).append("' ");
+            contentBuilder.append("style='width:").append(imageWidth).append("px;'/>");
+            contentBuilder.append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black; text-align: center;'>").append(product.getName()).append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black; text-align: center;'>").append(productOrderDTO.getQuantity()).append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black; text-align: center;'>").append(product.getPrice()).append("</td>");
             contentBuilder.append("</tr>");
 
             byte[] imageBytes = product.getMedia().get(0).getData();

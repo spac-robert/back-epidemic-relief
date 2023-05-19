@@ -21,4 +21,6 @@ public class DefaultHouseholdService implements HouseholdService {
     }
     //TODo am in config deja un household, trebuie ca account sa aiba un household, sa implementez acel visitor din academy
     //de facut debug pe proiectul din academy
+    //TODO de facut CRUD pt household
+    //TODO de facut CRUT User(trebuie schimbat in Account)
 }

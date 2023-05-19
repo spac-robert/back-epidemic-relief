@@ -36,6 +36,8 @@ public class Product {
     private List<Lot> lots = new ArrayList<>();
     @ManyToMany(mappedBy = "products")
     private List<PackageEntity> packages;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Necessity necessity;
 
 
     public Product(String name, Float price, String description, String manufacturer) {
