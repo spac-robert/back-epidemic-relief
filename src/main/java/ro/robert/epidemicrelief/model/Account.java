@@ -30,4 +30,12 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public User(String username, String email, String password, Household household, Role role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.household = household;
+        this.role = role;
+    }
 }
