@@ -2,11 +2,11 @@ package ro.robert.epidemicrelief.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.NaturalIdCache;
 
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -35,7 +35,7 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Lot> lots = new ArrayList<>();
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<PackageProduct> packageProducts;
+    private List<PackageItem> packageItems = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL)
     private Necessity necessity;
     //TODO de pus pe front necessity(pt admin)
@@ -64,8 +64,22 @@ public class Product {
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
-                ", media=" + media +
+                ", mediaId=" + media.get(0).getId() +
                 '}';
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((price == null) ? 0 : price.hashCode());
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((manufacturer == null) ? 0 : manufacturer.hashCode());
+        result = prime * result + ((media == null) ? 0 : media.hashCode());
+        result = prime * result + ((lots == null) ? 0 : lots.hashCode());
+        result = prime * result + ((packageItems == null) ? 0 : packageItems.hashCode());
+        return result;
+    }
 }

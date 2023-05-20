@@ -1,6 +1,8 @@
 package ro.robert.epidemicrelief.service;
 
+import ro.robert.epidemicrelief.model.PackageEntity;
+
 public interface PackageService {
 
-    void fillPackage(Long userId);
+    PackageEntity fillPackage(Long userId);
 }

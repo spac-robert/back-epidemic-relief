@@ -38,4 +38,16 @@ public class Account {
         this.household = household;
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", householdId=" + household.getId() +
+                ", role=" + role +
+                '}';
+    }
 }

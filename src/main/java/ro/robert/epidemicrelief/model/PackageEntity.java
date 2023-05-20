@@ -2,10 +2,7 @@ package ro.robert.epidemicrelief.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.NaturalIdCache;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,7 +25,7 @@ public class PackageEntity {
     private Household household;
 
     @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.ALL)
-    private List<PackageProduct> packageProducts = new ArrayList<>();
+    private List<PackageItem> packageItems = new ArrayList<>();
 
     @Column
     private Date deliveredDate;
@@ -36,4 +33,14 @@ public class PackageEntity {
     @Column
     private LocalDateTime createdDate;
 
+    @Override
+    public String toString() {
+        return "PackageEntity{" +
+                "id=" + id +
+                ", householdId=" + household.getId() +
+                ", packageItems=" + packageItems +
+                ", deliveredDate=" + deliveredDate +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }

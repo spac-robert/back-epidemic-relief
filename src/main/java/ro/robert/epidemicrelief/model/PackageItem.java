@@ -3,10 +3,6 @@ package ro.robert.epidemicrelief.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-
 @Entity
 @Data
 @Table
@@ -14,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PackageProduct {
+public class PackageItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -29,9 +25,19 @@ public class PackageProduct {
 
     private Integer quantity;
 
-    public PackageProduct(PackageEntity packageEntity, Product product, Integer quantity) {
+    public PackageItem(PackageEntity packageEntity, Product product, Integer quantity) {
         this.packageEntity = packageEntity;
         this.product = product;
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "PackageItem{" +
+                "id=" + id +
+                ", packageEntityId=" + packageEntity.getId() +
+                ", productId=" + product.getId() +
+                ", quantity=" + quantity +
+                '}';
     }
 }

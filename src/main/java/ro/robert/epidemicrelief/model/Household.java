@@ -71,4 +71,20 @@ public class Household {
         this.email = email;
         this.contactAddress = contactAddress;
     }
+
+    @Override
+    public String toString() {
+        return "Household{" +
+                "id=" + id +
+                ", representative='" + representative + '\'' +
+                ", numberOfPeople=" + numberOfPeople +
+                ", packages=" + packages +
+                ", phone='" + phone + '\'' +
+                ", numberOfChildren=" + numberOfChildren +
+                ", numberOfVegans=" + numberOfVegans +
+                ", numberOfNonVegans=" + numberOfNonVegans +
+                ", email='" + email + '\'' +
+                ", contactAddress='" + contactAddress + '\'' +
+                '}';
+    }
 }

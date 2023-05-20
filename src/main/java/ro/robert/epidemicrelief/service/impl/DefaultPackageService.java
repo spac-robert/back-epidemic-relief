@@ -33,7 +33,7 @@ public class DefaultPackageService implements PackageService {
     }
 
     @Override
-    public void fillPackage(Long userId) {
+    public PackageEntity fillPackage(Long userId) {
         PackageEntity packageEntity = createPackage(userId);
         List<ProductNecessity> productNecessityList = createNecessityList(packageEntity);
         for (ProductNecessity product : productNecessityList) {
@@ -56,12 +56,13 @@ public class DefaultPackageService implements PackageService {
                 }
                 lotRepository.saveAll(lots);
                 //AICI vreau sa fac pentru orice product sa am catitatea
-                PackageProduct packageProduct = new PackageProduct(packageEntity, productFromUuid, Math.toIntExact(product.getStock() - productStock));
-                packageProductRepository.save(packageProduct);
-                packageEntity.getPackageProducts().add(packageProduct);
+                PackageItem packageItem = new PackageItem(packageEntity, productFromUuid, Math.toIntExact(product.getStock() - productStock));
+                packageProductRepository.save(packageItem);
+                packageEntity.getPackageItems().add(packageItem);
             }
         }
         packageRepository.save(packageEntity);
+        return packageEntity;
     }
 
     //TODO Mock deoarece pachetul are un household

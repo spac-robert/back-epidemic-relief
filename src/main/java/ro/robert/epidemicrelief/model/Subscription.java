@@ -23,4 +23,15 @@ public class Subscription {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Account account;
+
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "id=" + id +
+                ", date=" + date +
+                ", isSubscribed=" + isSubscribed +
+                ", sent=" + sent +
+                ", accountId=" + account.getId() +
+                '}';
+    }
 }

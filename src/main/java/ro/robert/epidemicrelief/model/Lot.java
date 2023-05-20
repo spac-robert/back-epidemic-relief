@@ -39,6 +39,7 @@ public class Lot {
                 "id='" + id + '\'' +
                 ", quantity=" + quantity +
                 ", expirationDate=" + expirationDate +
+                ", productId=" + product.getId() +
                 '}';
     }
 }
