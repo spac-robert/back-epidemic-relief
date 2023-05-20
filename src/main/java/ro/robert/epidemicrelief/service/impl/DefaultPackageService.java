@@ -21,12 +21,15 @@ public class DefaultPackageService implements PackageService {
     private final AccountRepository accountRepository;
     private final LotRepository lotRepository;
 
-    public DefaultPackageService(PackageRepository packageRepository, NecessityRepository necessityRepository, ProductRepository productRepository, AccountRepository accountRepository, LotRepository lotRepository) {
+    private final PackageProductRepository packageProductRepository;
+
+    public DefaultPackageService(PackageRepository packageRepository, NecessityRepository necessityRepository, ProductRepository productRepository, AccountRepository accountRepository, LotRepository lotRepository, PackageProductRepository packageProductRepository) {
         this.packageRepository = packageRepository;
         this.necessityRepository = necessityRepository;
         this.productRepository = productRepository;
         this.accountRepository = accountRepository;
         this.lotRepository = lotRepository;
+        this.packageProductRepository = packageProductRepository;
     }
 
     @Override
@@ -44,6 +47,7 @@ public class DefaultPackageService implements PackageService {
                 for (Lot lot : lots) {
                     if (lot.getQuantity() >= productStock) {
                         lot.setQuantity((int) (lot.getQuantity() - productStock));
+                        productStock = 0L;
                         break;
                     } else {
                         productStock = productStock - lot.getQuantity();
@@ -52,10 +56,12 @@ public class DefaultPackageService implements PackageService {
                 }
                 lotRepository.saveAll(lots);
                 //AICI vreau sa fac pentru orice product sa am catitatea
-                packageEntity.getProducts().add(new PackageProducts(productFromUuid, packageEntity, productStock));
+                PackageProduct packageProduct = new PackageProduct(packageEntity, productFromUuid, Math.toIntExact(product.getStock() - productStock));
+                packageProductRepository.save(packageProduct);
+                packageEntity.getPackageProducts().add(packageProduct);
             }
         }
-        // packageRepository.save(aPackage);
+        packageRepository.save(packageEntity);
     }
 
     //TODO Mock deoarece pachetul are un household
@@ -64,6 +70,7 @@ public class DefaultPackageService implements PackageService {
         PackageEntity packageEntity = new PackageEntity();
 
         user.ifPresent(value -> packageEntity.setHousehold(value.getHousehold()));
+        packageRepository.save(packageEntity);
         return packageEntity;
     }
 

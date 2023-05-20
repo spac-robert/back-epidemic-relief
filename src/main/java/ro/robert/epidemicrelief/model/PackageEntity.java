@@ -27,11 +27,8 @@ public class PackageEntity {
     @JoinColumn(name = "household_id")
     private Household household;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "package_product",
-            joinColumns = @JoinColumn(name = "package_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products;
+    @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.ALL)
+    private List<PackageProduct> packageProducts = new ArrayList<>();
 
     @Column
     private Date deliveredDate;

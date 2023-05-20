@@ -34,8 +34,8 @@ public class Product {
     private List<Media> media;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Lot> lots = new ArrayList<>();
-    @ManyToMany(mappedBy = "products")
-    private List<PackageEntity> packages;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<PackageProduct> packageProducts;
     @OneToOne(cascade = CascadeType.ALL)
     private Necessity necessity;
     //TODO de pus pe front necessity(pt admin)
