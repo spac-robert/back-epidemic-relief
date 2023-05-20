@@ -71,8 +71,8 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public List<ProductDTO> searchProducts(@RequestParam("query") String query) {
-        return this.productFacade.search(query);
+    public ResponseEntity<List<ProductDTO>> searchProducts(@RequestParam("query") String query) {
+        return ResponseEntity.ok(this.productFacade.search(query));
     }
     @PutMapping(value = "/update")
     public void updateProduct(@ModelAttribute ProductDTO productDTO) {

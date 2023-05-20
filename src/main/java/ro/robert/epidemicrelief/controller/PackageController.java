@@ -23,6 +23,7 @@ public class PackageController {
         //sa iau User user = getUser(JWTData.idAcconunt) ceva de genul trebuie sa fac
         //TODO a service to verify if the user exist and if the id is for the current user logged
         PackageEntity myPackage = packageService.fillPackage(subscriptionDTO.getUserId()); //todo de facut un service in care sa fac convert
+        //TODO sa continui flowul si sa pun ResponseEntity la toate endpointurile
         return ResponseEntity.ok("User with id: " + subscriptionDTO.getUserId() + " subscribed on date: " + subscriptionDTO.getDate());
     }
 }

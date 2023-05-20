@@ -33,13 +33,13 @@ public class Lot {
         this.product = product;
     }
 
-    @Override
-    public String toString() {
-        return "Lot{" +
-                "id='" + id + '\'' +
-                ", quantity=" + quantity +
-                ", expirationDate=" + expirationDate +
-                ", productId=" + product.getId() +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Lot{" +
+//                "id='" + id + '\'' +
+//                ", quantity=" + quantity +
+//                ", expirationDate=" + expirationDate +
+//                ", productId=" + product.getId() +
+//                '}';
+//    }
 }

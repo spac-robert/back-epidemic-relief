@@ -58,13 +58,14 @@ public class Product {
 
     @Override
     public String toString() {
+        String mediaId = (media != null && !media.isEmpty()) ? String.valueOf(media.get(0).getId()) : "N/A";
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
-                ", mediaId=" + media.get(0).getId() +
+                ", mediaId=" + mediaId +
                 '}';
     }
 

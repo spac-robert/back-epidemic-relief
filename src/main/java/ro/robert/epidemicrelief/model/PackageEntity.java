@@ -33,14 +33,14 @@ public class PackageEntity {
     @Column
     private LocalDateTime createdDate;
 
-    @Override
-    public String toString() {
-        return "PackageEntity{" +
-                "id=" + id +
-                ", householdId=" + household.getId() +
-                ", packageItems=" + packageItems +
-                ", deliveredDate=" + deliveredDate +
-                ", createdDate=" + createdDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "PackageEntity{" +
+//                "id=" + id +
+//                ", householdId=" + household.getId() +
+//                ", packageItems=" + packageItems +
+//                ", deliveredDate=" + deliveredDate +
+//                ", createdDate=" + createdDate +
+//                '}';
+//    }
 }

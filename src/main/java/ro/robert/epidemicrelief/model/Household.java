@@ -72,19 +72,19 @@ public class Household {
         this.contactAddress = contactAddress;
     }
 
-    @Override
-    public String toString() {
-        return "Household{" +
-                "id=" + id +
-                ", representative='" + representative + '\'' +
-                ", numberOfPeople=" + numberOfPeople +
-                ", packages=" + packages +
-                ", phone='" + phone + '\'' +
-                ", numberOfChildren=" + numberOfChildren +
-                ", numberOfVegans=" + numberOfVegans +
-                ", numberOfNonVegans=" + numberOfNonVegans +
-                ", email='" + email + '\'' +
-                ", contactAddress='" + contactAddress + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Household{" +
+//                "id=" + id +
+//                ", representative='" + representative + '\'' +
+//                ", numberOfPeople=" + numberOfPeople +
+//                ", packages=" + packages +
+//                ", phone='" + phone + '\'' +
+//                ", numberOfChildren=" + numberOfChildren +
+//                ", numberOfVegans=" + numberOfVegans +
+//                ", numberOfNonVegans=" + numberOfNonVegans +
+//                ", email='" + email + '\'' +
+//                ", contactAddress='" + contactAddress + '\'' +
+//                '}';
+//    }
 }

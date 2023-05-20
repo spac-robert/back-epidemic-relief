@@ -68,8 +68,9 @@ public class DefaultProductFacade implements ProductFacade {
             quantity = quantity + lot.getQuantity();
         }
         productDTO.setStock(quantity);
-        productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
-
+        if (!product.getMedia().isEmpty()) {
+            productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+        }
         return productDTO;
 
     }
@@ -84,7 +85,7 @@ public class DefaultProductFacade implements ProductFacade {
             productService.addProduct(product);
             mediaService.addMedia(media);
         } catch (IOException ignored) {
-
+            System.out.println("Problem");
         }
     }
 
@@ -153,7 +154,9 @@ public class DefaultProductFacade implements ProductFacade {
 
         for (Product product : products.getContent()) {
             ProductDTO productDTO = this.productConverter.from(product);
-            productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+            if (!product.getMedia().isEmpty()) {
+                productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+            }
             int quantity = 0;
             for (Lot lot : product.getLots()) {
                 quantity = quantity + lot.getQuantity();

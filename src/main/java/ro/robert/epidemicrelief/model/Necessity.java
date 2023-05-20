@@ -35,14 +35,14 @@ public class Necessity {
         this.product = product;
     }
 
-    @Override
-    public String toString() {
-        return "Necessity{" +
-                "id=" + id +
-                ", personCategory=" + personCategory +
-                ", quantity=" + quantity +
-                ", productId=" + product.getId() +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Necessity{" +
+//                "id=" + id +
+//                ", personCategory=" + personCategory +
+//                ", quantity=" + quantity +
+//                ", productId=" + product.getId() +
+//                '}';
+//    }
 
 }

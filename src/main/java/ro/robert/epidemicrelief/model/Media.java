@@ -75,14 +75,14 @@ public class Media {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "Media{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", data=" + Arrays.toString(data) +
-                ", productId=" + product.getId() +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Media{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", type='" + type + '\'' +
+//                ", data=" + Arrays.toString(data) +
+//                ", productId=" + product.getId() +
+//                '}';
+//    }
 }

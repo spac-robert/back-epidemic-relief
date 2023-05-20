@@ -31,13 +31,13 @@ public class PackageItem {
         this.quantity = quantity;
     }
 
-    @Override
-    public String toString() {
-        return "PackageItem{" +
-                "id=" + id +
-                ", packageEntityId=" + packageEntity.getId() +
-                ", productId=" + product.getId() +
-                ", quantity=" + quantity +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "PackageItem{" +
+//                "id=" + id +
+//                ", packageEntityId=" + packageEntity.getId() +
+//                ", productId=" + product.getId() +
+//                ", quantity=" + quantity +
+//                '}';
+//    }
 }
