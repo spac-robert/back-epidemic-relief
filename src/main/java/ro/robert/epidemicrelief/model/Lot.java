@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,12 @@ public class Lot {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    public Lot(Integer quantity, Date expirationDate, Product product) {
+        this.quantity = quantity;
+        this.expirationDate = expirationDate;
+        this.product = product;
+    }
 
     @Override
     public String toString() {

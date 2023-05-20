@@ -11,7 +11,7 @@ import ro.robert.epidemicrelief.enums.Role;
 @Setter
 @Getter
 @Table(name = "user", schema = "public")
-public class User {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +31,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String username, String email, String password, Household household, Role role) {
+    public Account(String username, String email, String password, Household household, Role role) {
         this.username = username;
         this.email = email;
         this.password = password;

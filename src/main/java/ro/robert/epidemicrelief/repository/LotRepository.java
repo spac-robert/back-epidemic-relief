@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface LotRepository extends JpaRepository<Lot, String> {
     List<Lot> findLotsByExpirationDateLessThan(Date expirationDate);
+
     List<Lot> findByProductIdOrderByExpirationDateAsc(Integer productId);
 
+    List<Lot> findByProductId(Integer productId);
 }

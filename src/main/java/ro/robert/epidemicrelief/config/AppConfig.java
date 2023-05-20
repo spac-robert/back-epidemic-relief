@@ -3,24 +3,57 @@ package ro.robert.epidemicrelief.config;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ro.robert.epidemicrelief.model.Household;
-import ro.robert.epidemicrelief.model.Product;
-import ro.robert.epidemicrelief.repository.HouseholdRepository;
-import ro.robert.epidemicrelief.repository.MediaRepository;
-import ro.robert.epidemicrelief.repository.ProductRepository;
+import ro.robert.epidemicrelief.enums.Role;
+import ro.robert.epidemicrelief.model.*;
+import ro.robert.epidemicrelief.repository.*;
+import ro.robert.epidemicrelief.utils.PersonCategory;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Configuration
 public class AppConfig {
-
     @Bean
-    CommandLineRunner commandLineRunner(HouseholdRepository repository) {
+    CommandLineRunner commandLineRunner(HouseholdRepository repository, AccountRepository accountRepository,
+                                        NecessityRepository necessityRepository, ProductRepository productRepository,
+                                        LotRepository lotRepository) {
         return args -> {
             Household household = new Household("Robert", 4L, "075xxxxxx", 1L, 2L, 2L, "robert_spac@yahoo.com", "aaa");
+            Account account = new Account("Rob", "robert_spac@yahoo.com", "qwerty", household, Role.ADMIN);
 
+            Product vitaminJuice = new Product("vitaminJuice", 3F, "asd", "asd");
+            Product chocolate = new Product("chocolate", 3F, "asd", "asd");
+            Product cannedVegetables = new Product("cannedVegetables", 3F, "asd", "asd");
+            Product water = new Product("water", 3F, "asd", "asd");
+            Product meat = new Product("meat", 3F, "asd", "asd");
+
+            Necessity child1 = new Necessity(PersonCategory.CHILD, 1L, vitaminJuice);
+            Necessity child2 = new Necessity(PersonCategory.CHILD, 1L, chocolate);
+            Necessity veg = new Necessity(PersonCategory.VEGAN, 10L, cannedVegetables);
+            Necessity family = new Necessity(PersonCategory.FAMILY, 2L, water);
+            Necessity nonVeg = new Necessity(PersonCategory.NON_VEGAN, 10L, meat);
+
+            vitaminJuice.setNecessity(child1);
+            chocolate.setNecessity(child2);
+            cannedVegetables.setNecessity(veg);
+            water.setNecessity(family);
+            meat.setNecessity(nonVeg);
+
+            necessityRepository.saveAll(List.of(child1, child2, veg, family, nonVeg));
+
+            Lot vitaminJuiceLot = new Lot("1", 3, new Date(), vitaminJuice);
+            Lot chocolateLot = new Lot("2", 3, new Date(), chocolate);
+            Lot cannedVegetablesLot = new Lot("3", 3, new Date(), cannedVegetables);
+            Lot waterLot = new Lot("4", 3, new Date(), water);
+            Lot meatLot = new Lot("5", 3, new Date(), meat);
+
+            lotRepository.saveAll(List.of(vitaminJuiceLot, chocolateLot, cannedVegetablesLot, waterLot, meatLot));
+
+            productRepository.saveAll(List.of(water, vitaminJuice, cannedVegetables, chocolate, meat));
+
+            //TODO sa vad daca pot sa imi fac account fara sa imi fac un household
             repository.save(household);
+            accountRepository.save(account);
         };
     }
 }

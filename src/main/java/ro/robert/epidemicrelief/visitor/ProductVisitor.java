@@ -27,7 +27,7 @@ public class ProductVisitor implements Visitor {
 
         for (Necessity necessity : necessities) {
             if (necessity != null) {
-                ProductNecessity productNecessity = new ProductNecessity(necessity.getProduct().getId().toString(), necessity.getQuantity());
+                ProductNecessity productNecessity = new ProductNecessity(necessity.getProduct().getId(), necessity.getQuantity());
                 productNecessity.setStock(necessity.getQuantity() * member.getNumberOfPersons());
                 productNecessityList.add(productNecessity);
             }
@@ -43,8 +43,8 @@ public class ProductVisitor implements Visitor {
 
         for (Necessity necessity : necessities) {
             if (necessity != null) {
-                ProductNecessity productNecessity = new ProductNecessity(necessity.getProduct().getId().toString(), necessity.getQuantity());
-                productNecessity.setStock(necessity.getQuantity() * family.getNumberOfPersons() * 60);
+                ProductNecessity productNecessity = new ProductNecessity(necessity.getProduct().getId(), necessity.getQuantity());
+                productNecessity.setStock(necessity.getQuantity() * family.getNumberOfPersons() * 7);
                 productNecessityList.add(productNecessity);
             }
         }

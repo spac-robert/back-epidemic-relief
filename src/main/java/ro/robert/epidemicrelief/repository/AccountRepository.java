@@ -7,6 +7,6 @@ import ro.robert.epidemicrelief.model.Account;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findUserByEmail(String email);
 }

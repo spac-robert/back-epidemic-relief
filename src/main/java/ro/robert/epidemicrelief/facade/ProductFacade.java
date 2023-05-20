@@ -68,4 +68,6 @@ public interface ProductFacade {
      * @return list of all products listed o a page
      */
     Page<ProductDTO> searchProducts(String searchQuery, String sortBy, String sortDir, int pageSize, int pageNo);
+
+
 }
