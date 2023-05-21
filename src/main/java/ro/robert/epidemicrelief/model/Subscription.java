@@ -3,6 +3,9 @@ package ro.robert.epidemicrelief.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Calendar;
+import java.util.Date;
+
 @Entity
 @Data
 @Getter
@@ -24,14 +27,29 @@ public class Subscription {
     @JoinColumn(name = "user_id")
     private Account account;
 
-//    @Override
-//    public String toString() {
-//        return "Subscription{" +
-//                "id=" + id +
-//                ", date=" + date +
-//                ", isSubscribed=" + isSubscribed +
-//                ", sent=" + sent +
-//                ", accountId=" + account.getId() +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "id=" + id +
+                ", date=" + date +
+                ", isSubscribed=" + isSubscribed +
+                ", sent=" + sent +
+                ", accountId=" + account.getId() +
+                '}';
+    }
+
+    public Subscription(Subscription sub) {
+        this.id = sub.getId();
+        this.date = sub.getDate();
+        this.isSubscribed = sub.getIsSubscribed();
+        this.sent = sub.getSent();
+        this.account = sub.getAccount();
+    }
+
+    public void setDateForNextWeek() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.WEEK_OF_YEAR, 1);
+        date = calendar.getTime();
+    }
 }

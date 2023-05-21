@@ -56,9 +56,16 @@ public class DefaultJobService implements JobService {
         List<Subscription> subscriptions = this.subscriptionRepository.findAllByDate(date);
 
         if (!subscriptions.isEmpty()) {
-            for(Subscription sub: subscriptions){
+            for (Subscription sub : subscriptions) {
                 sub.setIsSubscribed(true);
+                Subscription newSubscription = new Subscription(sub);
+                newSubscription.setSent(false);
+                newSubscription.setDateForNextWeek();
                 sub.setSent(true);
+                this.subscriptionRepository.save(sub);
+
+                //TODO Imi face update, nu-mi adauga altul dc?
+                this.subscriptionRepository.save(newSubscription);
                 //TODO sa se trimita email persoanei respective
                 //din sub, am user id, sa iau emailul din acetsa si sa trimit un emial
                 //Pe baza subscriptiei, sa se reactualizeze stock-ul
