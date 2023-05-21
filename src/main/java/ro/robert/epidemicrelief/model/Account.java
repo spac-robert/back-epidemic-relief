@@ -25,7 +25,7 @@ public class Account {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Household household;
 
     @Enumerated(EnumType.STRING)
@@ -39,15 +39,15 @@ public class Account {
         this.role = role;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Account{" +
-//                "id=" + id +
-//                ", username='" + username + '\'' +
-//                ", email='" + email + '\'' +
-//                ", password='" + password + '\'' +
-//                ", householdId=" + household.getId() +
-//                ", role=" + role +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", household=" + household +
+                ", role=" + role +
+                '}';
+    }
 }
