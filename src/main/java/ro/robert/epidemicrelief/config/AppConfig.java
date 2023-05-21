@@ -52,6 +52,7 @@ public class AppConfig {
             productRepository.saveAll(List.of(water, vitaminJuice, cannedVegetables, chocolate, meat));
 
             //TODO sa vad daca pot sa imi fac account fara sa imi fac un household
+            //Sau cand fac register, primesc un household gol
             repository.save(household);
             accountRepository.save(account);
         };

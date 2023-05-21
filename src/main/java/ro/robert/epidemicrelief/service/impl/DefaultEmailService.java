@@ -38,13 +38,19 @@ public class DefaultEmailService implements EmailService {
         contentBuilder.append("<tr><th style='border: 1px solid black;'>Product</th><th style='border: 1px solid black;'>Name</th><th style='border: 1px solid black;'>Quantity</th><th style='border: 1px solid black;'>Price</th></tr>");
 
         for (ProductOrderDTO productOrderDTO : products) {
+            String base64ImageData = "";
+            byte[] imageBytes = null;
             Product product = productService.getById(productOrderDTO.getIdProduct());
-            String base64ImageData = Base64.encodeBase64String(product.getMedia().get(0).getData());
+            if (!product.getMedia().isEmpty()) {
+                base64ImageData = Base64.encodeBase64String(product.getMedia().get(0).getData());
+                imageBytes = product.getMedia().get(0).getData();
+            }
             int imageWidth = 100;
 
             contentBuilder.append("<tr>");
             contentBuilder.append("<td style='border: 1px solid black;'>");
             contentBuilder.append("<img src='data:image/png;base64,").append(base64ImageData).append("' ");
+            contentBuilder.append("alt='Image Not Found'").append(base64ImageData).append("' ");
             contentBuilder.append("style='width:").append(imageWidth).append("px;'/>");
             contentBuilder.append("</td>");
             contentBuilder.append("<td style='border: 1px solid black; text-align: center;'>").append(product.getName()).append("</td>");
@@ -52,7 +58,6 @@ public class DefaultEmailService implements EmailService {
             contentBuilder.append("<td style='border: 1px solid black; text-align: center;'>").append(product.getPrice()).append("</td>");
             contentBuilder.append("</tr>");
 
-            byte[] imageBytes = product.getMedia().get(0).getData();
             if (imageBytes != null) {
                 ByteArrayResource imageResource = new ByteArrayResource(imageBytes);
                 helper.addInline("image", imageResource, "image/png");
