@@ -19,7 +19,7 @@ public class AppConfig {
                                         LotRepository lotRepository) {
         return args -> {
             Household household = new Household("Robert", 4L, "075xxxxxx", 1L, 2L, 2L, "robert_spac@yahoo.com", "aaa");
-            Account account = new Account("Rob", "robert_spac@yahoo.com", "qwerty", household, Role.ADMIN);
+            Account account = new Account("Rob", "robert_spac@yahoo.com", "$2a$10$GdcFqRuINLLykgjdq/n.de7lbk.PfWDTdKOiUKAngK9CmHr3xFDGu", household, Role.ADMIN);
 
             Product vitaminJuice = new Product("vitaminJuice", 3F, "asd", "asd");
             Product chocolate = new Product("chocolate", 3F, "asd", "asd");
