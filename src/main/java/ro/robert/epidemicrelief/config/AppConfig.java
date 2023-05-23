@@ -20,6 +20,7 @@ public class AppConfig {
         return args -> {
             Household household = new Household("Robert", 4L, "075xxxxxx", 1L, 2L, 2L, "robert_spac@yahoo.com", "aaa");
             Account account = new Account("Rob", "robert_spac@yahoo.com", "$2a$10$GdcFqRuINLLykgjdq/n.de7lbk.PfWDTdKOiUKAngK9CmHr3xFDGu", household, Role.ADMIN);
+            Account account1 = new Account("customer", "robert1_spac@yahoo.com", "$2a$10$GdcFqRuINLLykgjdq/n.de7lbk.PfWDTdKOiUKAngK9CmHr3xFDGu", household, Role.CUSTOMER);
 
             Product vitaminJuice = new Product("vitaminJuice", 3F, "asd", "asd");
             Product chocolate = new Product("chocolate", 3F, "asd", "asd");
@@ -55,6 +56,7 @@ public class AppConfig {
             //Sau cand fac register, primesc un household gol
             repository.save(household);
             accountRepository.save(account);
+            accountRepository.save(account1);
         };
     }
 }

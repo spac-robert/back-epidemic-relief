@@ -61,6 +61,12 @@ public class Household {
             = "Contact address must be between 5 and 150 characters")
     private String contactAddress;
 
+    //TODO country si city sa adaug
+    @Column
+    private String city;
+    @Column
+    private String county;
+
     public Household(String representative, Long numberOfPeople, String phone, Long numberOfChildren, Long numberOfVegans, Long numberOfNonVegans, String email, String contactAddress) {
         this.representative = representative;
         this.numberOfPeople = numberOfPeople;

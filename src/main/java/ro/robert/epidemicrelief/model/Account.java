@@ -48,12 +48,16 @@ public class Account implements UserDetails {
     public String toString() {
         return "Account{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", accountName='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", household=" + household +
                 ", role=" + role +
                 '}';
+    }
+
+    public String getAccountName() {
+        return this.username;
     }
 
     @Override
