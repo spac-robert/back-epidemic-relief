@@ -74,7 +74,7 @@ public class DefaultJobService implements JobService {
                     OrderDTO order = packageService.subscription(account.getId());
                     String subject = "Weekly Subscription";
                     try {
-                        emailService.sendEmail(order.getEmail(), subject, order.getProducts(), deliveryAddress(order.getAddress()));
+                        emailService.sendEmail(order.getEmail(), subject, order.getProducts(), order.getTotalPrice(), deliveryAddress(order.getAddress()));
                     } catch (MessagingException e) {
                         logger.warn(e.getMessage());
                     }
@@ -90,7 +90,7 @@ public class DefaultJobService implements JobService {
     }
 
     private String deliveryAddress(String address) {
-        return "\nDelivery address: " + address + "\n" + "Thank you for placing your order!";
+        return "<p>Delivery address: " + address + "<p><br> Thank you for placing your order!";
     }
 
 }

@@ -34,7 +34,7 @@ public class OrderController {
         String to = order.getEmail();
         String subject = "Order Confirmation " + orderDTO.getOrderId();
         try {
-            emailService.sendEmail(to, subject, orderDTO.getProducts(), deliveryAddress(orderDTO.getAddress()));
+            emailService.sendEmail(to, subject, orderDTO.getProducts(), order.getTotalPrice(), deliveryAddress(orderDTO.getAddress()));
         } catch (Exception e) {
             System.out.println("Email couldn't be send!");
         }

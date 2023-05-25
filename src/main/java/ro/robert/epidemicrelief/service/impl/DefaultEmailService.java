@@ -26,7 +26,7 @@ public class DefaultEmailService implements EmailService {
     }
 
     @Override
-    public void sendEmail(String to, String subject, List<ProductOrderDTO> products, String address) throws MessagingException {
+    public void sendEmail(String to, String subject, List<ProductOrderDTO> products, Double totalPrice, String address) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -63,7 +63,7 @@ public class DefaultEmailService implements EmailService {
                 helper.addInline("image", imageResource, "image/png");
             }
         }
-        contentBuilder.append("</table><p>").append(address).append("</p></body></html>");
+        contentBuilder.append("</table><p>").append("<p>Total price: ").append(totalPrice).append("</p><br>").append(address).append("</p></body></html>");
         helper.setText(contentBuilder.toString(), true);
 
         mailSender.send(message);
