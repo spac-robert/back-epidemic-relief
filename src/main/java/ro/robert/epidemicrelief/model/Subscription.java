@@ -39,7 +39,6 @@ public class Subscription {
     }
 
     public Subscription(Subscription sub) {
-        this.id = sub.getId();
         this.date = sub.getDate();
         this.isSubscribed = sub.getIsSubscribed();
         this.sent = sub.getSent();

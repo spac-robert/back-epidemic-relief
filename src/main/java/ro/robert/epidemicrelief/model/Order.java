@@ -35,22 +35,6 @@ public class Order {
     private String email;
     @Column
     private String address;
-//    @Column
-//    @Enumerated(EnumType.STRING)
-//    private PaymentMethod paymentMethod;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
-
-//    @Override
-//    public String toString() {
-//        return "Order{" +
-//                "id=" + id +
-//                ", firstName='" + firstName + '\'' +
-//                ", lastName='" + lastName + '\'' +
-//                ", totalPrice=" + totalPrice +
-//                ", email='" + email + '\'' +
-//                ", address='" + address + '\'' +
-//                ", items=" + items +
-//                '}';
-//    }
 }

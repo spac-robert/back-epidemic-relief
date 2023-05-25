@@ -1,8 +1,13 @@
 package ro.robert.epidemicrelief.service.impl;
 
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
+import ro.robert.epidemicrelief.converter.OrderConverter;
+import ro.robert.epidemicrelief.dto.OrderDTO;
 import ro.robert.epidemicrelief.model.*;
 import ro.robert.epidemicrelief.repository.*;
+import ro.robert.epidemicrelief.service.AccountService;
+import ro.robert.epidemicrelief.service.OrderService;
 import ro.robert.epidemicrelief.service.PackageService;
 import ro.robert.epidemicrelief.visitor.ProductVisitor;
 import ro.robert.epidemicrelief.visitor.model.*;
@@ -20,20 +25,49 @@ public class DefaultPackageService implements PackageService {
     private final ProductRepository productRepository;
     private final AccountRepository accountRepository;
     private final LotRepository lotRepository;
-
+    private final OrderService orderService;
+    private final OrderConverter orderConverter;
+    private final AccountService accountService;
     private final PackageProductRepository packageProductRepository;
 
-    public DefaultPackageService(PackageRepository packageRepository, NecessityRepository necessityRepository, ProductRepository productRepository, AccountRepository accountRepository, LotRepository lotRepository, PackageProductRepository packageProductRepository) {
+    public DefaultPackageService(PackageRepository packageRepository, NecessityRepository necessityRepository,
+                                 ProductRepository productRepository, AccountRepository accountRepository,
+                                 LotRepository lotRepository, OrderService orderService, OrderConverter orderConverter,
+                                 AccountService accountService, PackageProductRepository packageProductRepository) {
         this.packageRepository = packageRepository;
         this.necessityRepository = necessityRepository;
         this.productRepository = productRepository;
         this.accountRepository = accountRepository;
         this.lotRepository = lotRepository;
+        this.orderService = orderService;
+        this.orderConverter = orderConverter;
+        this.accountService = accountService;
         this.packageProductRepository = packageProductRepository;
     }
 
     @Override
-    public PackageEntity fillPackage(Long userId) {
+    public @NonNull OrderDTO subscription(Long userId) {
+        PackageEntity filledPackage = fillPackage(userId);
+        Order order = createOrder(filledPackage, accountService.findAccountById(userId));
+        return orderConverter.from(order);
+    }
+
+    private Order createOrder(PackageEntity filledPackage, Account account) {
+        Order order = new Order();
+        order.setEmail(account.getEmail());
+        order.setAddress(account.getHousehold().getContactAddress());
+        order.setFirstName(account.getAccountName());
+        double totalPrice = 0d;
+        for (PackageItem item : filledPackage.getPackageItems()) {
+            OrderItem orderItem = new OrderItem(item.getProduct(), item.getQuantity());
+            order.getItems().add(orderItem);
+            totalPrice = totalPrice + (item.getProduct().getPrice() * item.getQuantity());
+        }
+        order.setTotalPrice(totalPrice);
+        return orderService.addOrder(order);
+    }
+
+    private PackageEntity fillPackage(Long userId) {
         PackageEntity packageEntity = createPackage(userId);
         List<ProductNecessity> productNecessityList = createNecessityList(packageEntity);
         for (ProductNecessity product : productNecessityList) {
@@ -65,7 +99,6 @@ public class DefaultPackageService implements PackageService {
         return packageEntity;
     }
 
-    //TODO Mock deoarece pachetul are un household
     private PackageEntity createPackage(Long userId) {
         Optional<Account> user = accountRepository.findById(userId);
         PackageEntity packageEntity = new PackageEntity();

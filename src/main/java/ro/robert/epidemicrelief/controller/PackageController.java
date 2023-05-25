@@ -1,11 +1,13 @@
 package ro.robert.epidemicrelief.controller;
 
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.robert.epidemicrelief.dto.OrderDTO;
 import ro.robert.epidemicrelief.dto.SubscriptionDTO;
 import ro.robert.epidemicrelief.facade.SubscriptionFacade;
-import ro.robert.epidemicrelief.model.PackageEntity;
+import ro.robert.epidemicrelief.service.EmailService;
 import ro.robert.epidemicrelief.service.PackageService;
 
 @RestController
@@ -15,15 +17,20 @@ import ro.robert.epidemicrelief.service.PackageService;
 public class PackageController {
 
     private final SubscriptionFacade subscriptionFacade;
+
     private final PackageService packageService;
+    private final EmailService emailService;
 
     @PostMapping(value = "/subscription")
     public ResponseEntity<String> subscription(@RequestBody SubscriptionDTO subscriptionDTO) {
         subscriptionFacade.addSubscription(subscriptionDTO);
-        //sa iau User user = getUser(JWTData.idAcconunt) ceva de genul trebuie sa fac
-        //TODO a service to verify if the user exist and if the id is for the current user logged
-        PackageEntity myPackage = packageService.fillPackage(subscriptionDTO.getUserId()); //todo de facut un service in care sa fac convert
-        //TODO sa continui flowul si sa pun ResponseEntity la toate endpointurile
+        OrderDTO order = packageService.subscription(subscriptionDTO.getUserId());
+        try {
+            emailService.sendEmailSubscription(order.getEmail(), subscriptionDTO.getDate());
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
         return ResponseEntity.ok("User with id: " + subscriptionDTO.getUserId() + " subscribed on date: " + subscriptionDTO.getDate());
     }
+
 }

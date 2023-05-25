@@ -39,7 +39,7 @@ public class ProductVisitor implements Visitor {
     public List<ProductNecessity> visit(Family family) {
         List<ProductNecessity> productNecessityList = new ArrayList<>();
         List<Necessity> necessities = necessityRepository.findAllByPersonCategory(PersonCategory.FAMILY)
-                .stream().filter(Objects::nonNull).collect(Collectors.toList());
+                .stream().filter(Objects::nonNull).toList();
 
         for (Necessity necessity : necessities) {
             if (necessity != null) {

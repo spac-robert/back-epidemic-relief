@@ -63,10 +63,24 @@ public class DefaultEmailService implements EmailService {
                 helper.addInline("image", imageResource, "image/png");
             }
         }
-
         contentBuilder.append("</table><p>").append(address).append("</p></body></html>");
-
         helper.setText(contentBuilder.toString(), true);
+
+        mailSender.send(message);
+    }
+
+    @Override
+    public void sendEmailSubscription(String to, String date) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        String subject = "Weekly Subscription";
+        helper.setTo(to);
+        helper.setSubject(subject);
+        String content = "Thanks for your subscription. You will receive weekly packages start with date:" + date;
+
+        helper.setText(content, true);
 
         mailSender.send(message);
     }

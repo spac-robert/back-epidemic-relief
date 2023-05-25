@@ -30,9 +30,9 @@ public class AppConfig {
 
             Necessity child1 = new Necessity(PersonCategory.CHILD, 1L, vitaminJuice);
             Necessity child2 = new Necessity(PersonCategory.CHILD, 1L, chocolate);
-            Necessity veg = new Necessity(PersonCategory.VEGAN, 10L, cannedVegetables);
-            Necessity family = new Necessity(PersonCategory.FAMILY, 2L, water);
-            Necessity nonVeg = new Necessity(PersonCategory.NON_VEGAN, 10L, meat);
+            Necessity veg = new Necessity(PersonCategory.VEGAN, 1L, cannedVegetables);
+            Necessity family = new Necessity(PersonCategory.FAMILY, 1L, water);
+            Necessity nonVeg = new Necessity(PersonCategory.NON_VEGAN, 1L, meat);
 
             vitaminJuice.setNecessity(child1);
             chocolate.setNecessity(child2);
@@ -42,11 +42,11 @@ public class AppConfig {
 
             necessityRepository.saveAll(List.of(child1, child2, veg, family, nonVeg));
 
-            Lot vitaminJuiceLot = new Lot("1", 3, new Date(), vitaminJuice);
-            Lot chocolateLot = new Lot("2", 3, new Date(), chocolate);
-            Lot cannedVegetablesLot = new Lot("3", 3, new Date(), cannedVegetables);
-            Lot waterLot = new Lot("4", 3, new Date(), water);
-            Lot meatLot = new Lot("5", 3, new Date(), meat);
+            Lot vitaminJuiceLot = new Lot("1", 300, new Date(), vitaminJuice);
+            Lot chocolateLot = new Lot("2", 300, new Date(), chocolate);
+            Lot cannedVegetablesLot = new Lot("3", 300, new Date(), cannedVegetables);
+            Lot waterLot = new Lot("4", 300, new Date(), water);
+            Lot meatLot = new Lot("5", 300, new Date(), meat);
 
             lotRepository.saveAll(List.of(vitaminJuiceLot, chocolateLot, cannedVegetablesLot, waterLot, meatLot));
 

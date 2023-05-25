@@ -1,8 +1,9 @@
 package ro.robert.epidemicrelief.service;
 
-import ro.robert.epidemicrelief.model.PackageEntity;
+import lombok.NonNull;
+import ro.robert.epidemicrelief.dto.OrderDTO;
 
 public interface PackageService {
 
-    PackageEntity fillPackage(Long userId);
+    @NonNull OrderDTO subscription(Long userId);
 }
