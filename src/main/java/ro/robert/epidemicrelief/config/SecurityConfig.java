@@ -3,6 +3,7 @@ package ro.robert.epidemicrelief.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,6 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ro.robert.epidemicrelief.auth.AuthEntryPointJwt;
 import ro.robert.epidemicrelief.auth.JwtAuthFilter;
+import ro.robert.epidemicrelief.enums.Role;
 
 @Configuration
 @RequiredArgsConstructor
@@ -22,8 +24,7 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
 
-
-//    @Bean
+    //    @Bean
 //    public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
 //        httpSecurity
 //                .cors().and()
@@ -32,7 +33,7 @@ public class SecurityConfig {
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
 //                .and()
 //                .authorizeHttpRequests()
-//                .requestMatchers("/auth/**")
+//                .requestMatchers("/auth/**", "/products", "/products/{id}", "/order/**", "product/search", "product/all")
 //                .permitAll()
 //                .anyRequest()
 //                .authenticated()
@@ -53,7 +54,7 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**","/products","/products/{id}","/order/**","product/search","product/all")
+                .requestMatchers("/auth/**", "/products", "/products/{id}", "/order/**", "product/search", "product/all")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

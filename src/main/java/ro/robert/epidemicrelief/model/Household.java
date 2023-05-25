@@ -16,22 +16,18 @@ public class Household {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @Column
     @Size(min = 2, max = 25, message
             = "Representative must be between 2 and 25 characters")
     @NotBlank(message = "Representative can't be null")
     @Pattern(regexp = "([a-zA-Z]+[ ]*)+", message = "Representative can't contain numbers")
     private String representative;
-
     @Column(name = "number_of_people")
     @Min(value = 1, message = "Number of people should not be less then 1")
     private Long numberOfPeople;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "household")
     @Valid
     private List<PackageEntity> packages;
-
     @Column
     @NotBlank(message = "Phone number can't be null")
     @Size(min = 10, max = 13, message
@@ -49,25 +45,21 @@ public class Household {
     @NotNull(message = "Number of non vegans can't be null")
     @Min(value = 0, message = "Number of non vegans should not be less then 0")
     private Long numberOfNonVegans;
-
     @Column
     @NotBlank(message = "Email address can't be blank")
     @Email(message = "Email should be valid")
     private String email;
-
     @Column
     @NotBlank(message = "Contact address can't be blank")
     @Size(min = 5, max = 150, message
             = "Contact address must be between 5 and 150 characters")
     private String contactAddress;
-
-    //TODO country si city sa adaug
     @Column
     private String city;
     @Column
     private String county;
 
-    public Household(String representative, Long numberOfPeople, String phone, Long numberOfChildren, Long numberOfVegans, Long numberOfNonVegans, String email, String contactAddress) {
+    public Household(String representative, Long numberOfPeople, String phone, Long numberOfChildren, Long numberOfVegans, Long numberOfNonVegans, String email, String contactAddress, String city, String county) {
         this.representative = representative;
         this.numberOfPeople = numberOfPeople;
         this.phone = phone;
@@ -76,7 +68,10 @@ public class Household {
         this.numberOfNonVegans = numberOfNonVegans;
         this.email = email;
         this.contactAddress = contactAddress;
+        this.city = city;
+        this.county = county;
     }
+
 
     @Override
     public String toString() {

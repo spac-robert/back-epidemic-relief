@@ -12,8 +12,9 @@ public interface HouseholdService {
      * Adds the given household
      *
      * @param household the household to be added
+     * @return
      */
-    void addHousehold(@NonNull Household household);
+    Household addHousehold(@NonNull Household household);
 
     void updateHousehold(@NonNull Household household);
 

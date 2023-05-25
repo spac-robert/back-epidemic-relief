@@ -18,7 +18,7 @@ public class AppConfig {
                                         NecessityRepository necessityRepository, ProductRepository productRepository,
                                         LotRepository lotRepository) {
         return args -> {
-            Household household = new Household("Robert", 4L, "075xxxxxx", 1L, 2L, 2L, "robert_spac@yahoo.com", "aaa");
+            Household household = new Household("Robert", 4L, "075xxxxxx", 1L, 2L, 2L, "robert_spac@yahoo.com", "aaa","Suceava","Suceava");
             Account account = new Account("Rob", "robert_spac@yahoo.com", "$2a$10$GdcFqRuINLLykgjdq/n.de7lbk.PfWDTdKOiUKAngK9CmHr3xFDGu", household, Role.ADMIN);
             Account account1 = new Account("customer", "robert1_spac@yahoo.com", "$2a$10$GdcFqRuINLLykgjdq/n.de7lbk.PfWDTdKOiUKAngK9CmHr3xFDGu", household, Role.CUSTOMER);
 

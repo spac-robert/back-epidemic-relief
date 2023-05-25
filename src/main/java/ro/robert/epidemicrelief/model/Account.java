@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name = "user", schema = "public")
+@Table(name = "account", schema = "public")
 public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class Account implements UserDetails {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -43,6 +43,7 @@ public class Account implements UserDetails {
         this.household = household;
         this.role = role;
     }
+
 
     @Override
     public String toString() {

@@ -22,8 +22,8 @@ public class DefaultHouseholdService implements HouseholdService {
     }
 
     @Override
-    public void addHousehold(@NonNull Household household) {
-        householdRepository.save(household);
+    public Household addHousehold(@NonNull Household household) {
+        return householdRepository.save(household);
     }
 
     @Override
