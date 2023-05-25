@@ -41,9 +41,9 @@ public class DefaultEmailService implements EmailService {
             String base64ImageData = "";
             byte[] imageBytes = null;
             Product product = productService.getById(productOrderDTO.getIdProduct());
-            if (!product.getMedia().isEmpty()) {
-                base64ImageData = Base64.encodeBase64String(product.getMedia().get(0).getData());
-                imageBytes = product.getMedia().get(0).getData();
+            if (product.getMedia() != null) {
+                base64ImageData = Base64.encodeBase64String(product.getMedia().getData());
+                imageBytes = product.getMedia().getData();
             }
             int imageWidth = 100;
 

@@ -68,8 +68,8 @@ public class DefaultProductFacade implements ProductFacade {
             quantity = quantity + lot.getQuantity();
         }
         productDTO.setStock(quantity);
-        if (!product.getMedia().isEmpty()) {
-            productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+        if (product.getMedia() != null) {
+            productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia()));
         }
         return productDTO;
 
@@ -80,7 +80,7 @@ public class DefaultProductFacade implements ProductFacade {
         try {
             Media media = mediaConverter.to(productDto.getMedia());
             Product product = productConverter.to(productDto);
-            product.setMedia(List.of(media));
+            product.setMedia(media);
             media.setProduct(product);
             productService.addProduct(product);
             mediaService.addMedia(media);
@@ -89,13 +89,39 @@ public class DefaultProductFacade implements ProductFacade {
         }
     }
 
+//    @Override
+//    public void updateProduct(@NonNull ProductDTO product) {
+//        Media media = new Media();
+//        Product productOptional = productService.getById(product.getId());
+//        try {
+//            if (product.getMedia().isEmpty()) {
+//                media = productOptional.getMedia().get(0);
+//            } else {
+//                media = mediaConverter.to(product.getMedia());
+//            }
+//        } catch (Exception ignored) {
+//
+//        }
+//        if (productOptional != null) {
+//            Product productToBeSaved = productConverter.to(product);
+//            productToBeSaved.setNecessity(productOptional.getNecessity());
+//            productToBeSaved.setMedia(List.of(media));
+//            media.setProduct(productToBeSaved);
+//            productService.updateProduct(productToBeSaved);
+//            mediaService.updateMedia(media, productToBeSaved);
+//
+//        } else {
+//            throw new EntityNotFoundException("Product with id: " + product.getId() + " does not exist");
+//        }
+//    }
+
     @Override
     public void updateProduct(@NonNull ProductDTO product) {
         Media media = new Media();
         Product productOptional = productService.getById(product.getId());
         try {
             if (product.getMedia().isEmpty()) {
-                media = productOptional.getMedia().get(0);
+                media = productOptional.getMedia();
             } else {
                 media = mediaConverter.to(product.getMedia());
             }
@@ -103,18 +129,31 @@ public class DefaultProductFacade implements ProductFacade {
 
         }
         if (productOptional != null) {
-            Product productToBeSaved = productConverter.to(product);
-            productToBeSaved.setMedia(List.of(media));
-            productService.updateProduct(productToBeSaved);
-            mediaService.updateMedia(media, productToBeSaved);
+            convert(product, productOptional);
+            productOptional.setMedia(media);
+            media.setProduct(productOptional);
+            mediaService.addMedia(media);
+            // mediaService.updateMedia(media, productToBeSaved);
+
         } else {
             throw new EntityNotFoundException("Product with id: " + product.getId() + " does not exist");
         }
     }
 
+    private void convert(ProductDTO product, Product productOptional) {
+        productOptional.setDescription(product.getDescription());
+        productOptional.setManufacturer(product.getManufacturer());
+        productOptional.setName(product.getName());
+        productOptional.setPrice(product.getPrice());
+        if (productOptional.getMedia() != null) {
+            mediaService.deleteAllByProduct(productOptional);
+        }
+        productOptional.setMedia(null);
+    }
+
     @Override
-    public void deleteProduct(Integer id) {
-        productService.deleteProduct(id);
+    public boolean deleteProduct(Integer id) {
+        return productService.deleteProduct(id);
     }
 
     @Override
@@ -136,7 +175,7 @@ public class DefaultProductFacade implements ProductFacade {
 
         for (Product product : products) {
             ProductDTO productDTO = this.productConverter.from(product);
-            productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+            productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia()));
             productDTOS.add(productDTO);
         }
         return productDTOS;
@@ -154,8 +193,8 @@ public class DefaultProductFacade implements ProductFacade {
 
         for (Product product : products.getContent()) {
             ProductDTO productDTO = this.productConverter.from(product);
-            if (!product.getMedia().isEmpty()) {
-                productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia().get(0)));
+            if (product.getMedia() != null) {
+                productDTO.setMediaUrl(this.mediaConverter.from(product.getMedia()));
             }
             int quantity = 0;
             for (Lot lot : product.getLots()) {

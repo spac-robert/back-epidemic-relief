@@ -7,6 +7,8 @@ import ro.robert.epidemicrelief.model.Product;
 import ro.robert.epidemicrelief.repository.MediaRepository;
 import ro.robert.epidemicrelief.service.MediaService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +32,13 @@ public class DefaultMediaService implements MediaService {
             receivedMedia.get().setData(media.getData());
             mediaRepository.save(receivedMedia.get());
         }
+    }
+
+    @Override
+    public void deleteAllByProduct(Product productOptional) {
+        Media media = productOptional.getMedia();
+        productOptional.setMedia(new Media());
+        media.setProduct(null);
+        mediaRepository.delete(media);
     }
 }

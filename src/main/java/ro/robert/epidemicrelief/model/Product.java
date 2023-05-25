@@ -30,8 +30,8 @@ public class Product {
     @Column
     @NotBlank(message = "Manufacturer is mandatory")
     private String manufacturer;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Media> media;
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Media media;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Lot> lots = new ArrayList<>();
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -48,7 +48,7 @@ public class Product {
         this.manufacturer = manufacturer;
     }
 
-    public Product(String name, Float price, String description, String manufacturer, List<Media> media) {
+    public Product(String name, Float price, String description, String manufacturer, Media media) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -58,14 +58,14 @@ public class Product {
 
     @Override
     public String toString() {
-        String mediaId = (media != null && !media.isEmpty()) ? String.valueOf(media.get(0).getId()) : "N/A";
+        // String mediaId = (media != null && !media.isEmpty()) ? String.valueOf(media.get(0).getId()) : "N/A";
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
-                ", mediaId=" + mediaId +
+                ", media=" + media +
                 '}';
     }
 

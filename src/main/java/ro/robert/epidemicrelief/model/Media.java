@@ -19,7 +19,7 @@ public class Media {
     @Column(name = "data",columnDefinition = "LONGBLOB", length = 10000)
     private byte[] data;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;
 

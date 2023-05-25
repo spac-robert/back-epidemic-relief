@@ -74,14 +74,22 @@ public class ProductController {
     public ResponseEntity<List<ProductDTO>> searchProducts(@RequestParam("query") String query) {
         return ResponseEntity.ok(this.productFacade.search(query));
     }
+
     @PutMapping(value = "/update")
     public void updateProduct(@ModelAttribute ProductDTO productDTO) {
         productFacade.updateProduct(productDTO);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public void removeProduct(@PathVariable("id") Integer id) {
-        productFacade.deleteProduct(id);
+    public ResponseEntity<String> removeProduct(@PathVariable("id") Integer id) {
+        try {
+            if (productFacade.deleteProduct(id)) {
+                return ResponseEntity.ok().body("Product deleted");
+            }
+        } catch (ProductNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return null;
     }
 
 }

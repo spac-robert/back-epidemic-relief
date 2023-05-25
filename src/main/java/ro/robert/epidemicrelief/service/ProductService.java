@@ -26,8 +26,9 @@ public interface ProductService {
      * Remove the product with the given id
      *
      * @param id the id of the product to be removed
+     * @return
      */
-    void deleteProduct(@NonNull Integer id);
+    boolean deleteProduct(@NonNull Integer id);
 
     /**
      * @return a list of products
