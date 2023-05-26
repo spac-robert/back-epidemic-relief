@@ -19,5 +19,6 @@ public class OrderDTO {
     private String city;
     private String state;
     private String zip;
+    private Double totalPrice;
 
 }

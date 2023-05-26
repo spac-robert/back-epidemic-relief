@@ -2,6 +2,7 @@ package ro.robert.epidemicrelief.service.impl;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -25,7 +26,7 @@ public class DefaultEmailService implements EmailService {
     }
 
     @Override
-    public void sendEmail(String to, String subject, List<ProductOrderDTO> products, String address) throws MessagingException {
+    public void sendEmail(String to, String subject, List<ProductOrderDTO> products, Double totalPrice, String address) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -37,24 +38,49 @@ public class DefaultEmailService implements EmailService {
         contentBuilder.append("<tr><th style='border: 1px solid black;'>Product</th><th style='border: 1px solid black;'>Name</th><th style='border: 1px solid black;'>Quantity</th><th style='border: 1px solid black;'>Price</th></tr>");
 
         for (ProductOrderDTO productOrderDTO : products) {
+            String base64ImageData = "";
+            byte[] imageBytes = null;
             Product product = productService.getById(productOrderDTO.getIdProduct());
+            if (product.getMedia() != null) {
+                base64ImageData = Base64.encodeBase64String(product.getMedia().getData());
+                imageBytes = product.getMedia().getData();
+            }
+            int imageWidth = 100;
+
             contentBuilder.append("<tr>");
-            contentBuilder.append("<td style='border: 1px solid black;'><img src='cid:image").append(product.getId()).append("'/></td>");
-            contentBuilder.append("<td style='border: 1px solid black;'>").append(product.getName()).append("</td>");
-            contentBuilder.append("<td style='border: 1px solid black;'>").append(productOrderDTO.getQuantity()).append("</td>");
-            contentBuilder.append("<td style='border: 1px solid black;'>").append(product.getPrice()).append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black;'>");
+            contentBuilder.append("<img src='data:image/png;base64,").append(base64ImageData).append("' ");
+            contentBuilder.append("alt='Image Not Found'").append(base64ImageData).append("' ");
+            contentBuilder.append("style='width:").append(imageWidth).append("px;'/>");
+            contentBuilder.append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black; text-align: center;'>").append(product.getName()).append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black; text-align: center;'>").append(productOrderDTO.getQuantity()).append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black; text-align: center;'>").append(product.getPrice()).append("</td>");
             contentBuilder.append("</tr>");
 
-            byte[] imageBytes = product.getMedia().get(0).getData();
             if (imageBytes != null) {
                 ByteArrayResource imageResource = new ByteArrayResource(imageBytes);
                 helper.addInline("image", imageResource, "image/png");
             }
         }
-
-        contentBuilder.append("</table><p>").append(address).append("</p></body></html>");
-
+        contentBuilder.append("</table><p>").append("<p>Total price: ").append(totalPrice).append(" RON</p><br>").append(address).append("</p></body></html>");
         helper.setText(contentBuilder.toString(), true);
+
+        mailSender.send(message);
+    }
+
+    @Override
+    public void sendEmailSubscription(String to, String date) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        String subject = "Weekly Subscription";
+        helper.setTo(to);
+        helper.setSubject(subject);
+        String content = "Thanks for your subscription. You will receive weekly packages start with date:" + date;
+
+        helper.setText(content, true);
 
         mailSender.send(message);
     }

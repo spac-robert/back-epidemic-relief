@@ -1,11 +1,13 @@
 package ro.robert.epidemicrelief.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.robert.epidemicrelief.dto.LotDTO;
 import ro.robert.epidemicrelief.dto.ProductDTO;
+import ro.robert.epidemicrelief.dto.response.ProductResponse;
 import ro.robert.epidemicrelief.exception.ProductNotFoundException;
 import ro.robert.epidemicrelief.facade.ProductFacade;
 
@@ -42,21 +44,26 @@ public class ProductController {
 
 
     @PostMapping(value = "/add")
-    public void addProduct(@ModelAttribute ProductDTO productDTO) {
-        productFacade.addProduct(productDTO);
+    public ResponseEntity<ProductResponse> addProduct(@ModelAttribute ProductDTO productDTO) {
+        try {
+            productFacade.addProduct(productDTO);
+            return ResponseEntity.ok().body(new ProductResponse("Product was added"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ProductResponse("Product couldn't be added"));
+        }
     }
 
     @PostMapping(value = "/add/lot")
-    public ResponseEntity<String> addProductLot(@ModelAttribute LotDTO lotDTO) {
+    public ResponseEntity<ProductResponse> addProductLot(@ModelAttribute LotDTO lotDTO) {
         try {
             if (!Objects.equals(lotDTO.getProductId(), productFacade.getById(lotDTO.getProductId()).getId())) {
-                return ResponseEntity.badRequest().body("Product with id:" + lotDTO.getProductId() + " doesn't exist");
+                return ResponseEntity.badRequest().body(new ProductResponse("Product with id:" + lotDTO.getProductId() + " doesn't exist"));
             }
             this.productFacade.addLot(lotDTO);
+            return ResponseEntity.ok().body(new ProductResponse("Lot was added"));
         } catch (ProductNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(new ProductResponse(e.getMessage()));
         }
-        return null;
     }
 
     @GetMapping("/{id}")
@@ -71,17 +78,32 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public List<ProductDTO> searchProducts(@RequestParam("query") String query) {
-        return this.productFacade.search(query);
-    }
-    @PutMapping(value = "/update")
-    public void updateProduct(@ModelAttribute ProductDTO productDTO) {
-        productFacade.updateProduct(productDTO);
+    public ResponseEntity<List<ProductDTO>> searchProducts(@RequestParam("query") String query) {
+        return ResponseEntity.ok(this.productFacade.search(query));
     }
 
+    @PutMapping(value = "/update")
+    public ResponseEntity<ProductResponse> updateProduct(@ModelAttribute ProductDTO productDTO) {
+        try {
+            productFacade.updateProduct(productDTO);
+            return ResponseEntity.ok().body(new ProductResponse("Product updated"));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.badRequest().body(new ProductResponse(e.getMessage()));
+        }
+    }
+
+    //TODO daca am o comanda facuta pe un produs si vreau sa-l sterg produsul, nu ma lasa, oare e ok sa mai am in tabela
+    // o coloana de deleted?
     @DeleteMapping(value = "/delete/{id}")
-    public void removeProduct(@PathVariable("id") Integer id) {
-        productFacade.deleteProduct(id);
+    public ResponseEntity<String> removeProduct(@PathVariable("id") Integer id) {
+        try {
+            if (productFacade.deleteProduct(id)) {
+                return ResponseEntity.ok().body("Product deleted");
+            }
+        } catch (ProductNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return null;
     }
 
 }

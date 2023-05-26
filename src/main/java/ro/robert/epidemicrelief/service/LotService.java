@@ -4,6 +4,9 @@ import lombok.NonNull;
 import ro.robert.epidemicrelief.dto.ProductOrderDTO;
 import ro.robert.epidemicrelief.model.Lot;
 
+import java.util.Date;
+import java.util.List;
+
 public interface LotService {
 
     /**
@@ -14,4 +17,8 @@ public interface LotService {
     void addLot(@NonNull Lot lot);
 
     void updateLot(ProductOrderDTO productOrderDTO);
+
+    List<Lot> findLotsByExpirationDateLessThan(Date expirationDate);
+
+    void deleteAll(List<Lot> lots);
 }

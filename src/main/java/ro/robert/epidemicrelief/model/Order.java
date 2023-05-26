@@ -35,9 +35,6 @@ public class Order {
     private String email;
     @Column
     private String address;
-//    @Column
-//    @Enumerated(EnumType.STRING)
-//    private PaymentMethod paymentMethod;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
 }

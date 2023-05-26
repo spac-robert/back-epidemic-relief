@@ -48,8 +48,9 @@ public interface ProductFacade {
      * Removes the product with the given id.
      *
      * @param id id of the product to be removed
+     * @return
      */
-    void deleteProduct(Integer id);
+    boolean deleteProduct(Integer id);
 
     /**
      * Adds a lot for a given product
@@ -68,4 +69,6 @@ public interface ProductFacade {
      * @return list of all products listed o a page
      */
     Page<ProductDTO> searchProducts(String searchQuery, String sortBy, String sortDir, int pageSize, int pageNo);
+
+
 }

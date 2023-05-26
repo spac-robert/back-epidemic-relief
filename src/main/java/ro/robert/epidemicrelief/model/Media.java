@@ -3,6 +3,7 @@ package ro.robert.epidemicrelief.model;
 import jakarta.persistence.*;
 
 import java.sql.Blob;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "media")
@@ -18,7 +19,7 @@ public class Media {
     @Column(name = "data",columnDefinition = "LONGBLOB", length = 10000)
     private byte[] data;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
@@ -73,4 +74,15 @@ public class Media {
     public void setType(String type) {
         this.type = type;
     }
+
+//    @Override
+//    public String toString() {
+//        return "Media{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", type='" + type + '\'' +
+//                ", data=" + Arrays.toString(data) +
+//                ", productId=" + product.getId() +
+//                '}';
+//    }
 }

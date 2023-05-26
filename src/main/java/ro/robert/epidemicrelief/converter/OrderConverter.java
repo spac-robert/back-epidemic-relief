@@ -3,7 +3,6 @@ package ro.robert.epidemicrelief.converter;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import ro.robert.epidemicrelief.dto.OrderDTO;
-import ro.robert.epidemicrelief.dto.PaymentInfo;
 import ro.robert.epidemicrelief.dto.ProductOrderDTO;
 import ro.robert.epidemicrelief.model.Order;
 import ro.robert.epidemicrelief.model.OrderItem;
@@ -24,7 +23,7 @@ public class OrderConverter {
         target.setFirstName(source.getFirstName());
         target.setLastName(source.getLastName());
         target.setProducts(convertToAListOfProductOrderDTO(source));
-
+        target.setTotalPrice(source.getTotalPrice());
         return target;
     }
 
@@ -36,6 +35,7 @@ public class OrderConverter {
         target.setAddress(source.getAddress());
         target.setFirstName(source.getFirstName());
         target.setLastName(source.getLastName());
+        target.setTotalPrice(source.getTotalPrice());
 
         return target;
     }

@@ -36,10 +36,11 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public void deleteProduct(@NonNull Integer id) {
+    public boolean deleteProduct(@NonNull Integer id) {
         Optional<Product> product = repository.findById(id);
         if (product.isPresent()) {
             repository.delete(product.get());
+            return true;
         } else {
             throw new ProductNotFoundException("Product with id: " + id + " doesn't exist");
         }
