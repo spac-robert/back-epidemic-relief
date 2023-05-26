@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.robert.epidemicrelief.dto.LotDTO;
 import ro.robert.epidemicrelief.dto.ProductDTO;
+import ro.robert.epidemicrelief.dto.response.ProductResponse;
 import ro.robert.epidemicrelief.exception.ProductNotFoundException;
 import ro.robert.epidemicrelief.facade.ProductFacade;
 
@@ -42,21 +43,26 @@ public class ProductController {
 
 
     @PostMapping(value = "/add")
-    public void addProduct(@ModelAttribute ProductDTO productDTO) {
-        productFacade.addProduct(productDTO);
+    public ResponseEntity<ProductResponse> addProduct(@ModelAttribute ProductDTO productDTO) {
+        try {
+            productFacade.addProduct(productDTO);
+            return ResponseEntity.ok().body(new ProductResponse("Product was added"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ProductResponse("Product couldn't be added"));
+        }
     }
 
     @PostMapping(value = "/add/lot")
-    public ResponseEntity<String> addProductLot(@ModelAttribute LotDTO lotDTO) {
+    public ResponseEntity<ProductResponse> addProductLot(@ModelAttribute LotDTO lotDTO) {
         try {
             if (!Objects.equals(lotDTO.getProductId(), productFacade.getById(lotDTO.getProductId()).getId())) {
-                return ResponseEntity.badRequest().body("Product with id:" + lotDTO.getProductId() + " doesn't exist");
+                return ResponseEntity.badRequest().body(new ProductResponse("Product with id:" + lotDTO.getProductId() + " doesn't exist"));
             }
             this.productFacade.addLot(lotDTO);
+            return ResponseEntity.ok().body(new ProductResponse("Lot was added"));
         } catch (ProductNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(new ProductResponse(e.getMessage()));
         }
-        return null;
     }
 
     @GetMapping("/{id}")

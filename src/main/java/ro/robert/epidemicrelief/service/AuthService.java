@@ -49,26 +49,31 @@ public class AuthService {
 
     public boolean register(RegisterDTO register) {
         String message = "";
-        if (accountRepository.findUserByEmail(register.getEmail()).isEmpty()) {
-            if (passwordValidator.validate(register.getPassword())) {
-                Household household = new Household();
-                register.setPassword(passwordEncoder.encode(register.getPassword()));
-                Account newAccount = accountConverter.to(register);
-                householdRepository.save(household);
-                newAccount.setHousehold(household);
-                accountRepository.save(newAccount);
-                return true;
+        if (emailValidator.validate(register.getEmail())) {
+            if (accountRepository.findUserByEmail(register.getEmail()).isEmpty()) {
+                if (passwordValidator.validate(register.getPassword())) {
+                    Household household = new Household();
+                    household.setNumberOfPeople(1L);
+                    register.setPassword(passwordEncoder.encode(register.getPassword()));
+                    Account newAccount = accountConverter.to(register);
+                    householdRepository.save(household);
+                    newAccount.setHousehold(household);
+                    accountRepository.save(newAccount);
+                    return true;
+                } else {
+                    message = """
+                            Minimum length of 6 characters
+                            Password must have at least one digit
+                            At least one uppercase letter
+                            At least one symbol from the set !@#$%^&+=
+                            Does not contain whitespace
+                            """;
+                }
             } else {
-                message = """
-                        Minimum length of 6 characters
-                        Password must have at least one digit
-                        At least one uppercase letter
-                        At least one symbol from the set !@#$%^&+=
-                        Does not contain whitespace
-                        """;
+                message = message + "Email is already used";
             }
         } else {
-            message = message + "Email is already used";
+            message = message + "Email must be like name@domainName.domain";
         }
         throw new RegisterException(message);
     }

@@ -63,7 +63,7 @@ public class DefaultEmailService implements EmailService {
                 helper.addInline("image", imageResource, "image/png");
             }
         }
-        contentBuilder.append("</table><p>").append("<p>Total price: ").append(totalPrice).append("</p><br>").append(address).append("</p></body></html>");
+        contentBuilder.append("</table><p>").append("<p>Total price: ").append(totalPrice).append(" RON</p><br>").append(address).append("</p></body></html>");
         helper.setText(contentBuilder.toString(), true);
 
         mailSender.send(message);

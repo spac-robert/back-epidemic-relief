@@ -9,6 +9,6 @@ import ro.robert.epidemicrelief.dto.HouseholdDTO;
 @Setter
 @AllArgsConstructor
 public class HouseholdResponse {
-    private HouseholdDTO householdDTO;
+    private HouseholdDTO household;
     private String error;
 }
