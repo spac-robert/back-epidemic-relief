@@ -38,8 +38,8 @@ public class Product {
     private List<PackageItem> packageItems = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL)
     private Necessity necessity;
-    //TODO de pus pe front necessity(pt admin)
-    //TODO sa adaug la produs pe front din ce categorie face parte, vegan, lactate, etc.) si pe be
+    @Column
+    private boolean deleted = false;
 
     public Product(String name, Float price, String description, String manufacturer) {
         this.name = name;

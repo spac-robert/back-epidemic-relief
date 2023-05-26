@@ -1,5 +1,6 @@
 package ro.robert.epidemicrelief.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -82,10 +83,17 @@ public class ProductController {
     }
 
     @PutMapping(value = "/update")
-    public void updateProduct(@ModelAttribute ProductDTO productDTO) {
-        productFacade.updateProduct(productDTO);
+    public ResponseEntity<ProductResponse> updateProduct(@ModelAttribute ProductDTO productDTO) {
+        try {
+            productFacade.updateProduct(productDTO);
+            return ResponseEntity.ok().body(new ProductResponse("Product updated"));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.badRequest().body(new ProductResponse(e.getMessage()));
+        }
     }
 
+    //TODO daca am o comanda facuta pe un produs si vreau sa-l sterg produsul, nu ma lasa, oare e ok sa mai am in tabela
+    // o coloana de deleted?
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<String> removeProduct(@PathVariable("id") Integer id) {
         try {

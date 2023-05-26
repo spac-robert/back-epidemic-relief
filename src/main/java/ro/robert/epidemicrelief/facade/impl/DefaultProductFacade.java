@@ -89,51 +89,26 @@ public class DefaultProductFacade implements ProductFacade {
         }
     }
 
-//    @Override
-//    public void updateProduct(@NonNull ProductDTO product) {
-//        Media media = new Media();
-//        Product productOptional = productService.getById(product.getId());
-//        try {
-//            if (product.getMedia().isEmpty()) {
-//                media = productOptional.getMedia().get(0);
-//            } else {
-//                media = mediaConverter.to(product.getMedia());
-//            }
-//        } catch (Exception ignored) {
-//
-//        }
-//        if (productOptional != null) {
-//            Product productToBeSaved = productConverter.to(product);
-//            productToBeSaved.setNecessity(productOptional.getNecessity());
-//            productToBeSaved.setMedia(List.of(media));
-//            media.setProduct(productToBeSaved);
-//            productService.updateProduct(productToBeSaved);
-//            mediaService.updateMedia(media, productToBeSaved);
-//
-//        } else {
-//            throw new EntityNotFoundException("Product with id: " + product.getId() + " does not exist");
-//        }
-//    }
-
     @Override
     public void updateProduct(@NonNull ProductDTO product) {
         Media media = new Media();
         Product productOptional = productService.getById(product.getId());
-        try {
-            if (product.getMedia().isEmpty()) {
-                media = productOptional.getMedia();
-            } else {
-                media = mediaConverter.to(product.getMedia());
-            }
-        } catch (Exception ignored) {
 
-        }
         if (productOptional != null) {
+            try {
+                if (product.getMedia().isEmpty()) {
+                    media = productOptional.getMedia();
+                } else {
+                    media = mediaConverter.to(product.getMedia());
+                    deleteMedia(productOptional);
+                }
+            } catch (Exception ignored) {
+
+            }
             convert(product, productOptional);
             productOptional.setMedia(media);
             media.setProduct(productOptional);
             mediaService.addMedia(media);
-            // mediaService.updateMedia(media, productToBeSaved);
 
         } else {
             throw new EntityNotFoundException("Product with id: " + product.getId() + " does not exist");
@@ -145,6 +120,9 @@ public class DefaultProductFacade implements ProductFacade {
         productOptional.setManufacturer(product.getManufacturer());
         productOptional.setName(product.getName());
         productOptional.setPrice(product.getPrice());
+    }
+
+    private void deleteMedia(Product productOptional) {
         if (productOptional.getMedia() != null) {
             mediaService.deleteAllByProduct(productOptional);
         }

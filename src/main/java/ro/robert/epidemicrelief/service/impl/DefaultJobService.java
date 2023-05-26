@@ -64,6 +64,7 @@ public class DefaultJobService implements JobService {
         List<Subscription> subscriptions = this.subscriptionRepository.findAllByDate(date);
         if (!subscriptions.isEmpty()) {
             for (Subscription sub : subscriptions) {
+                logger.info("Subscription: " + sub);
                 if (!sub.getSent() && sub.getDate().compareTo(date) == 0) {
                     Account account = sub.getAccount();
 

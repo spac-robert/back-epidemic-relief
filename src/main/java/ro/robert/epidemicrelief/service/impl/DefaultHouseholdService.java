@@ -36,5 +36,4 @@ public class DefaultHouseholdService implements HouseholdService {
         Optional<Account> user = accountRepository.findById(userId);
         return user.map(Account::getHousehold).orElse(null);
     }
-    //TODO nu stiu daca sa fac Delete la household
 }
